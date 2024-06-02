@@ -20,7 +20,8 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        darkSlateGray: "rgba(56, 60, 80, 1)"
+        darkSlateGray: "rgba(56, 60, 80, 1)",
+        primaryBlue: "rgba(141, 217, 251, 1)"
       },
     },
   },

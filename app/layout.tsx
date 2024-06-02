@@ -4,7 +4,7 @@ import Navbar from "@/app/lib/components/navbar/navbar";
 
 import Footer from "@/app/lib/ui/footer/footer";
 
-import {poppins} from "@/app/lib/ui/fonts";
+import { poppins } from "@/app/lib/ui/fonts";
 
 import "./globals.css";
 
