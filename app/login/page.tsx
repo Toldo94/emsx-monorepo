@@ -1,6 +1,5 @@
 import ActionButton from "../lib/ui/action-button";
 import DarkSection from "../lib/ui/dark-section";
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
 export default function Page() {
     return (
