@@ -7,11 +7,11 @@ import NavigrationButton from "../lib/ui/navigration-button";
 export default function Page() {
     return (
         <main className="h-dvh">
-            <DarkSection id="login-screen" className="h-full">
+            <DarkSection id="registration-screen" className="h-full">
                 <div className="h-full flex">
                     <div className="bg-white text-black mx-auto my-auto w-3/4 p-8">
                         <div className="">
-                            <h1 className="font-black text-center text-xl">
+                            <h1 className="font-black text-xl">
                                 Welcome to EMSX
                             </h1>
                             <div className="flex justify-center">
