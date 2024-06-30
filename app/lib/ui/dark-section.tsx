@@ -1,7 +1,6 @@
 import React from "react";
 
 import clsx from 'clsx'
-import { ButtonProps } from "@headlessui/react";
 
 interface OwnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode
