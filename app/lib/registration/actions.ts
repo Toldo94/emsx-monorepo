@@ -16,5 +16,30 @@ export async function registerStudent(formData: FormData) {
         email: formData.get("email"),
         password: formData.get("password"),
         confirmPassword: formData.get("confirmPassword")
-    })
+    });
+
+    try {
+        const response = await fetch('https://musical-sniffle-wv6v9r4jjw4c99g9-3000.app.github.dev/v1/users', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: "Emsx User",
+                email: email,
+                password: password,
+                roleName: "Student"
+            })
+        })
+        console.log("Status: ", response.ok)
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.log("Ovaj? Error: ", error)
+
+    }
+
+
 }
