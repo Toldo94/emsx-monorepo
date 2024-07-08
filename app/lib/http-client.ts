@@ -1,8 +1,9 @@
 export class HttpClient {
-    private static getHeaders() {
+    private static getHeaders(token: string | undefined = undefined) {
         return {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
 
         }
     }
@@ -22,4 +23,20 @@ export class HttpClient {
             return {}
         }
     }
+
+    public static async getRequest(url: string, authToken: string | undefined) {
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: HttpClient.getHeaders(authToken),
+
+            });
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            return {}
+        }
+    }
+
 }

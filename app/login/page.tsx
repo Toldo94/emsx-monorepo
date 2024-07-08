@@ -1,7 +1,24 @@
+'use client'
+
+import { useState } from "react";
+
 import ActionButton from "../lib/ui/action-button";
 import DarkSection from "../lib/ui/dark-section";
+import { signIn } from "next-auth/react";
 
 export default function Page() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await signIn("credentials", {
+            email: email,
+            password: password
+        })
+    };
+
     return (
         <main className="h-dvh">
             <DarkSection id="login-screen" className="h-full">
@@ -14,7 +31,7 @@ export default function Page() {
                             <p className="pt-4 pb-8">
                                 Welcome back to EMSX. Sign in below to enter your account.
                             </p>
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div className="space-y-12">
                                     <div className="">
                                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -28,6 +45,8 @@ export default function Page() {
                                                         id="email"
                                                         name="email"
                                                         type="email"
+                                                        value={email}
+                                                        onChange={(e) => setEmail(e.target.value)}
                                                         autoComplete="email"
                                                         className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                     />
@@ -43,6 +62,8 @@ export default function Page() {
                                                         id="password"
                                                         name="password"
                                                         type="password"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
                                                         autoComplete="password"
                                                         className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                     />
