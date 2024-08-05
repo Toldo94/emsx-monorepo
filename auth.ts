@@ -7,7 +7,6 @@ import { jwtDecode } from "jwt-decode";
 
 import { HttpClient } from "./app/lib/http-client";
 import { UserRoutes } from "./app/lib/routes/users.routes";
-import { use } from "react";
 
 const LoginSchema = z.object({
     email: z.string().email(),
@@ -35,12 +34,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
                 const { email, password } = LoginSchema.parse(credentials);
 
-                const data = await HttpClient.postRequest(UserRoutes.login, {
+                const data: {accessToken?: string} = await HttpClient.postRequest(UserRoutes.login, {
                     email,
                     password
                 });
 
-                const users: object[] = await HttpClient.getRequest(UserRoutes.register, data.accessToken)
+                const users: any[] = await HttpClient.getRequest(UserRoutes.users, data.accessToken)
 
                 user = users.filter(user => user.email === email)[0];
 
