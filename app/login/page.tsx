@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 import ActionButton from "../lib/ui/action-button";
 import DarkSection from "../lib/ui/dark-section";
@@ -11,7 +11,7 @@ export default function Page() {
     const [password, setPassword] = useState('');
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await signIn("credentials", {
             email: email,
