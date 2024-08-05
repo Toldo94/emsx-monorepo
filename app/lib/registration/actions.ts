@@ -20,6 +20,6 @@ export async function registerStudent(formData: FormData) {
         password: formData.get("password"),
         confirmPassword: formData.get("confirmPassword")
     });
-    const data = await HttpClient.postRequest(UserRoutes.register, { name: "Emsx User", roleName: "Student", email, password });
+    const data = await HttpClient.postRequest(UserRoutes.users, { name: "Emsx User", roleName: "Student", email, password });
     redirect("/login");
 }
