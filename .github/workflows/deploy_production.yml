@@ -6,7 +6,7 @@ on:
       - 'v*.*.*' # Trigger on tags like vx.x.x
 
 jobs:
-  docker:
+  build_and_push:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,13 +25,17 @@ jobs:
       # Extract the tag (e.g., vx.x.x)
       - name: Extract tag
         run: echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      
+      - name: Convert repository name to lowercase
+        run: echo "REPO_NAME=${{ github.repository }} | tr '[:upper:]' '[:lower:]'" >> $GITHUB_ENV
+
 
       # Build the Docker image
       - name: Build Docker image
         run: |
           docker build \
-            -t ghcr.io/${{ github.repository }}:latest \
-            -t ghcr.io/${{ github.repository }}:${{ env.TAG }} \
+            -t ghcr.io/${{ env.REPO_NAME }}:latest \
+            -t ghcr.io/${{ env.REPO_NAME }}:${{ env.TAG }} \
             .
 
       # Push the Docker image
