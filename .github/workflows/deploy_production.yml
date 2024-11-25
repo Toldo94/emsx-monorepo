@@ -25,10 +25,10 @@ jobs:
       # Extract the tag (e.g., vx.x.x)
       - name: Extract tag
         run: echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
-      
-      - name: Convert repository name to lowercase
-        run: echo "REPO_NAME=${{ github.repository }} | tr '[:upper:]' '[:lower:]'" >> $GITHUB_ENV
 
+      # Convert repository name to lowercase
+      - name: Convert repository name to lowercase
+        run: echo "REPO_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       # Build the Docker image
       - name: Build Docker image
@@ -41,5 +41,5 @@ jobs:
       # Push the Docker image
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository }}:latest
-          docker push ghcr.io/${{ github.repository }}:${{ env.TAG }}
+          docker push ghcr.io/${{ env.REPO_NAME }}:latest
+          docker push ghcr.io/${{ env.REPO_NAME }}:${{ env.TAG }}
