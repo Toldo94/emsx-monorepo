@@ -1,5 +1,9 @@
 'use client'
 
+import Link from 'next/link'
+
+import { useSession } from 'next-auth/react'
+
 import { Disclosure, DisclosurePanel, DisclosureButton } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { classNames } from '../../util/classNames'
@@ -17,6 +21,7 @@ const navigation = [
 ]
 
 export default function Navbar() {
+  const { data: session } = useSession();
 
   return (
     <Disclosure as="nav" className="bg-darkSlateGray w-full">
@@ -38,12 +43,14 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch md:justify-between">
                 <div className="flex flex-shrink-0 items-center">
-                  <EmsxLogoInverted />
+                  <Link href="/">
+                    <EmsxLogoInverted />
+                  </Link>
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
+                <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         className={classNames(
@@ -53,16 +60,16 @@ export default function Navbar() {
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   {/* Profile dropdown */}
-                  <div className='flex'>
+                  {!session && <div className='flex'>
                     <RegistraionButton />
                     <NavigrationButton link='/login' label='Login' />
-                  </div>
+                  </div>}
                   <ProfileMenu />
                 </div>
               </div>
@@ -74,7 +81,7 @@ export default function Navbar() {
               {navigation.map((item) => (
                 <DisclosureButton
                   key={item.name}
-                  as="a"
+                  as={Link}
                   href={item.href}
                   className={classNames(
                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',

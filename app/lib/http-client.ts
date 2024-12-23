@@ -8,7 +8,7 @@ export class HttpClient {
         }
     }
     public static async postRequest(url: string, body: object): Promise<object> {
-        console.log("Url?");
+        console.log("Url? ", url);
         try {
             const response = await fetch(url, {
                 method: 'POST',

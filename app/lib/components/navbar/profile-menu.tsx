@@ -1,17 +1,15 @@
 'use client'
 
-import { Fragment, useEffect } from 'react'
+import { Fragment } from 'react'
+import Link from 'next/link';
 
-import { useSession, getSession } from 'next-auth/react';
-
+import { useSession, signOut } from 'next-auth/react';
 import { Menu, MenuButton, MenuItems, MenuItem, Transition } from '@headlessui/react'
 
 
+
 export default function ProfileMenu() {
-    const { data: session, status } = useSession();
-
-
-    console.log("Status: ", status);
+    const { data: session } = useSession();
 
     if (session && session.authUser) {
         return <Menu as="div" className="relative ml-3">
@@ -37,29 +35,28 @@ export default function ProfileMenu() {
             >
                 <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <MenuItem>
-                        <a
+                        <Link
                             href="#"
                             className="block px-4 py-2 text-sm text-gray-700 data-[active]:bg-gray-100"
                         >
                             Your Profile
-                        </a>
+                        </Link>
                     </MenuItem>
                     <MenuItem>
-                        <a
+                        <Link
                             href="#"
                             className="block px-4 py-2 text-sm text-gray-700 data-[active]:bg-gray-100"
                         >
                             Settings
-                        </a>
-
+                        </Link>
                     </MenuItem>
                     <MenuItem>
-                        <a
-                            href="#"
+                        <button
+                            onClick={async () => await signOut()}
                             className="block px-4 py-2 text-sm text-gray-700 data-[active]:bg-gray-100"
                         >
                             Sign out
-                        </a>
+                        </button>
                     </MenuItem>
                 </MenuItems>
             </Transition>
