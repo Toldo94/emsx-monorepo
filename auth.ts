@@ -34,7 +34,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
                 const { email, password } = LoginSchema.parse(credentials);
 
-                const data: {accessToken?: string} = await HttpClient.postRequest(UserRoutes.login, {
+                console.log("Hello world ", email, password);
+
+                const data: { accessToken?: string } = await HttpClient.postRequest(UserRoutes.login, {
                     email,
                     password
                 });
@@ -51,34 +53,34 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
         })
     ],
-    callbacks: {
-        jwt({ token, user }) {
-            if (user) {
-                token.accesToken = user.accessToken;
-                token.refreshToken = user.refreshToken;
-                token.expiresIn = getTokenExpiration(user.accessToken);
-                token.authUser = {
-                    id: parseInt(user.id!),
-                    email: user.email!,
-                    role: user.roleName
-                };
-            }
-            return token
-        },
-        session({ session, token }) {
-            session.token = {
-                accessToken: token.accesToken,
-                refreshToken: token.refreshToken,
-                expiresIn: token.expiresIn
-            }
-            session.authUser = {
-                id: token.authUser.id,
-                email: token.authUser.email,
-                role: token.authUser.role
-            }
-            return session
-        },
-    },
+    // callbacks: {
+    //     jwt({ token, user }) {
+    //         if (user) {
+    //             token.accesToken = user.accessToken;
+    //             token.refreshToken = user.refreshToken;
+    //             token.expiresIn = getTokenExpiration(user.accessToken);
+    //             token.authUser = {
+    //                 id: parseInt(user.id!),
+    //                 email: user.email!,
+    //                 role: user.roleName
+    //             };
+    //         }
+    //         return token
+    //     },
+    //     session({ session, token }) {
+    //         session.token = {
+    //             accessToken: token.accesToken,
+    //             refreshToken: token.refreshToken,
+    //             expiresIn: token.expiresIn
+    //         }
+    //         session.authUser = {
+    //             id: token.authUser.id,
+    //             email: token.authUser.email,
+    //             role: token.authUser.role
+    //         }
+    //         return session
+    //     },
+    // },
     pages: {
         signIn: "/login"
     },
