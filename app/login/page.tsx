@@ -2,22 +2,37 @@
 
 import React, { useState } from "react";
 
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 import ActionButton from "../lib/ui/action-button";
 import DarkSection from "../lib/ui/dark-section";
-import { signIn } from "next-auth/react";
+
 
 export default function Page() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
+    const router = useRouter();
+    
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        await signIn("credentials", {
-            email: email,
-            password: password
-        })
-    };
+    const onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        try {
+            const res = await signIn('credentials', {
+                redirect: false,
+                email,
+                password,
+                callbackUrl: "/"
+            })
+            if (!res?.error) {
+                router.push("/")
+            } else {
+                setError('Invalid email or password')
+            }
+        } catch (err: any) { }
+    }
 
     return (
         <main className="h-dvh">
@@ -31,7 +46,7 @@ export default function Page() {
                             <p className="pt-4 pb-8">
                                 Welcome back to EMSX. Sign in below to enter your account.
                             </p>
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={onSubmit}>
                                 <div className="space-y-12">
                                     <div className="">
                                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 
-import { AuthProvider } from "./lib/auth-provider";
-
-import { auth } from "@/auth";
+import { Providers } from "./lib/providers";
 
 import Navbar from "@/app/lib/components/navbar/navbar";
 
@@ -22,16 +20,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        <AuthProvider session={session}>
+        <Providers>
           <Navbar />
           {children}
           <Footer />
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

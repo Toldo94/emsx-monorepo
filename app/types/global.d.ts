@@ -1,11 +1,11 @@
-interface Token {
+export interface Token {
     accessToken: string;
     refreshToken: string;
     expiresIn: number;
 }
 
-interface AuthUser {
+export interface AuthUser {
     id: number;
     email: string;
-    role: string;
+    roleName: string;
 }

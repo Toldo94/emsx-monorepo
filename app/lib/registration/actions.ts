@@ -2,8 +2,11 @@
 
 import { redirect } from 'next/navigation'
 import { z } from "zod";
-import { HttpClient } from "../http-client";
-import { UserRoutes } from '../routes/users.routes';
+
+import { db } from '../db';
+import EncryptionService from '../encryption/encryption.service';
+import { UserRole } from '../user/user-role.enum';
+
 
 const StudentRegistrationSchema = z.object({
     email: z.string().email(),
@@ -20,6 +23,17 @@ export async function registerStudent(formData: FormData) {
         password: formData.get("password"),
         confirmPassword: formData.get("confirmPassword")
     });
-    const data = await HttpClient.postRequest(UserRoutes.users, { name: "Emsx User", roleName: "Student", email, password });
+
+    const hashedPassword = await EncryptionService.hash(password);
+
+    await db.user.create({
+        data: {
+            email,
+            password: hashedPassword,
+            roleName: UserRole.Student
+        }
+    });
+
+    
     redirect("/login");
 }

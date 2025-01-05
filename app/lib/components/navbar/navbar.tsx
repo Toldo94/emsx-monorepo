@@ -13,7 +13,7 @@ import RegistraionButton from './registration-button'
 import ProfileMenu from './profile-menu'
 
 const navigation = [
-  { name: 'What is EMSX?', href: '#', current: true },
+  { name: 'What is EMSX?', href: '#', current: false },
   { name: 'How EMSX works', href: '#', current: false },
   { name: 'Our team', href: '#', current: false },
   { name: 'Blog', href: '#', current: false },

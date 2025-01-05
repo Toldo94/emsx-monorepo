@@ -1,5 +1,5 @@
 import "next-auth";
-import "next-auth/jwt";
+ import "next-auth/jwt";
 
 
 declare module "next-auth" {
@@ -13,15 +13,13 @@ declare module "next-auth" {
         name?: string | null
         email?: string | null
         roleName: string
-        accessToken: string,
-        refreshToken: string
     }
 }
 
 declare module "next-auth/jwt" {
     interface JWT {
-        accesToken: string;
-        refreshToken: string;
+        // accesToken: string;
+        // refreshToken: string;
         expiresIn: number;
         authUser: AuthUser;
     }

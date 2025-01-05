@@ -5,8 +5,8 @@ import Credentials from "next-auth/providers/credentials";
 
 import { jwtDecode } from "jwt-decode";
 
-import { HttpClient } from "./app/lib/http-client";
-import { UserRoutes } from "./app/lib/routes/users.routes";
+import { db } from "./app/lib/db";
+import EncryptionService from "./app/lib/encryption/encryption.service";
 
 const LoginSchema = z.object({
     email: z.string().email(),
@@ -29,58 +29,57 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 email: {},
                 password: {}
             },
-            authorize: async (credentials) => {
-                let user = null
-
+            authorize: async (credentials, request): Promise<User | null> => {
                 const { email, password } = LoginSchema.parse(credentials);
 
-                const data: { accessToken?: string } = await HttpClient.postRequest(UserRoutes.login, {
-                    email,
-                    password
+                const userFromDb = await db.user.findUnique({
+                    where: { email }
                 });
 
-                user = await HttpClient.getRequest(UserRoutes.userMe, data.accessToken);
+                if (!userFromDb || !await EncryptionService.compare(password, userFromDb.password)) {
+                    return null;
+                };
 
-                console.log("user: ", user);
-
-                if (user) {
-                    return { ...user, ...data } as User;
-                }
-
-                return null
+                return {
+                    id: String(userFromDb.id),
+                    name: userFromDb.name || "",
+                    email: userFromDb.email,
+                    roleName: userFromDb.roleName || "",
+                };
             }
         })
     ],
     callbacks: {
         jwt({ token, user }) {
             if (user) {
-                token.accesToken = user.accessToken;
-                token.refreshToken = user.refreshToken;
-                token.expiresIn = getTokenExpiration(user.accessToken);
-                token.authUser = {
-                    id: parseInt(user.id!),
-                    email: user.email!,
-                    role: user.roleName
+                return {
+                    ...token,
+                    id:user.id,
+                    roleName: user.roleName,
                 };
             }
-            return token
+            return token;
         },
         session({ session, token }) {
-            session.token = {
-                accessToken: token.accesToken,
-                refreshToken: token.refreshToken,
-                expiresIn: token.expiresIn
-            }
-            session.authUser = {
-                id: token.authUser.id,
-                email: token.authUser.email,
-                role: token.authUser.role
-            }
-            return session
+            return {
+                ...session,
+                authUser: {
+                    ...session.user,
+                    id: String(token.id),
+                    roleName: token.roleName,
+                },
+            };
         },
     },
-    pages: {
-        signIn: "/login",
-        signOut: "/"
+    session: {
+        strategy: "jwt",
+        maxAge: 15 * 60, // 15 minutes
     },
+    jwt: {
+        maxAge: 15 * 60, // 15 minutes
+    },
+    // pages: {
+    //     signIn: "/login",
+    //     signOut: "/"
+    // },
 })

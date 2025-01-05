@@ -6,6 +6,13 @@ const nextConfig = {
             allowedOrigins: ["*.app.github.dev", "localhost:3000"],
         },
     },
+    images: {
+        remotePatterns: [
+            {
+                hostname: "images.unsplash.com",
+            }
+        ]
+    }
 };
 
 export default nextConfig;
