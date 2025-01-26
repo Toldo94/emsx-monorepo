@@ -21,7 +21,9 @@ const config: Config = {
       },
       colors: {
         darkSlateGray: "rgba(56, 60, 80, 1)",
+        mainWhite: "rgba(255, 255, 255, 1)",
         primaryBlue: "rgba(141, 217, 251, 1)"
+
       },
     },
   },
