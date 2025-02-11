@@ -19,5 +19,18 @@ services:
     ports:
       - 9090:8080
 
+  mongo:
+    image: prismagraphql/mongo-single-replica:4.4.3-bionic
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+      INIT_WAIT_SEC: 3
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_emsx:/data/db
+
 volumes:
   postgres_emsx:
+  mongo_emsx:

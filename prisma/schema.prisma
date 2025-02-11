@@ -9,13 +9,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 
 model User {
-  id           Int          @id @default(autoincrement())
+  id           String          @id @default(cuid()) @map("_id")
   name         String?
   email        String       @unique
   password     String
@@ -23,4 +23,21 @@ model User {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   roleName     String?
+}
+
+
+model Location {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String 
+  veterinaryGroup String
+  groupClinic     String?
+  groupSites      Int
+  groupId         String
+  placementId     Int
+  locationId      String
+  groupHq         Boolean
+  status          String
+  ownership       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

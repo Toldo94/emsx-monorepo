@@ -40,6 +40,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     return null;
                 };
 
+                
                 return {
                     id: String(userFromDb.id),
                     name: userFromDb.name || "",
@@ -54,7 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (user) {
                 return {
                     ...token,
-                    id:user.id,
+                    id: user.id,
                     roleName: user.roleName,
                 };
             }
