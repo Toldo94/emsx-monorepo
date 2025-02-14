@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 import NextAuth, { User } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-
 import { jwtDecode } from "jwt-decode";
+
+import Credentials from "next-auth/providers/credentials";
 
 import { db } from "./app/lib/db";
 import EncryptionService from "./app/lib/encryption/encryption.service";
@@ -51,6 +51,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         })
     ],
     callbacks: {
+        authorized({ request, auth }) {
+            console.log("Auth: ", auth);
+            if (request.nextUrl.pathname === '/') {
+                return true;
+            }
+            return !!auth;
+        },
         jwt({ token, user }) {
             if (user) {
                 return {
@@ -79,8 +86,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt: {
         maxAge: 15 * 60, // 15 minutes
     },
-    // pages: {
-    //     signIn: "/login",
-    //     signOut: "/"
-    // },
+    pages: {
+        signIn: "/login",
+        signOut: "/"
+    },
 })

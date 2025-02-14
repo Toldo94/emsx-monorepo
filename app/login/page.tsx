@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from 'next/navigation'
 
 import ActionButton from "../lib/ui/action-button";
 import DarkSection from "../lib/ui/dark-section";
@@ -15,19 +16,21 @@ export default function Page() {
     const [error, setError] = useState('');
 
     const router = useRouter();
-    
+    const searchParams = useSearchParams()    
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        
+        const callbackUrl = searchParams.get('callbackUrl') || "/";
         try {
             const res = await signIn('credentials', {
                 redirect: false,
                 email,
                 password,
-                callbackUrl: "/"
+                callbackUrl: callbackUrl
             })
             if (!res?.error) {
-                router.push("/")
+                router.push(callbackUrl)
             } else {
                 setError('Invalid email or password')
             }
