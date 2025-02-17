@@ -5,8 +5,11 @@ import { jwtDecode } from "jwt-decode";
 
 import Credentials from "next-auth/providers/credentials";
 
-import { db } from "./app/lib/db";
 import EncryptionService from "./app/lib/encryption/encryption.service";
+
+import dbConnect from "@/lib/db";
+import AuthUser from "@/models/User";
+
 
 const LoginSchema = z.object({
     email: z.string().email(),
@@ -32,13 +35,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             authorize: async (credentials, request): Promise<User | null> => {
                 const { email, password } = LoginSchema.parse(credentials);
 
-                const userFromDb = await db.user.findUnique({
-                    where: { email }
-                });
+                await dbConnect();
+
+                const userFromDb = await AuthUser.findOne({
+                    email: email
+                    });
+
+                console.log("User from DB: ", userFromDb);
 
                 if (!userFromDb || !await EncryptionService.compare(password, userFromDb.password)) {
                     return null;
                 };
+
+                console.log("User from DB: ", userFromDb.id);
 
                 
                 return {

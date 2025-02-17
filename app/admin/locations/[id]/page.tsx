@@ -1,8 +1,24 @@
-import React from 'react'
+'use client'
+
+
+import React, { useEffect, useState } from 'react'
 import { httpClient } from '@/lib/http-client';
 
-async function AdminLocation({ params }: { params: { id: string } }) {
-    const location = await httpClient.get(`/api/admin/locations/${params.id}`).then(res => res.data);
+function AdminLocation({ params }: { params: { id: string } }) {
+
+    const [location, setLocation] = useState<any>(null);
+
+    const fetchLocation = async () => {
+        const { id } = await params;
+        const res = await httpClient.get(`/api/admin/locations/${id}`);
+        setLocation(res.data);
+    }
+
+    useEffect(() => {
+        fetchLocation();
+    }, []);
+
+    if (!location) return <div>Loading...</div>;
 
     return (
         <div className="p-4 border border-gray-300 rounded shadow h-full">

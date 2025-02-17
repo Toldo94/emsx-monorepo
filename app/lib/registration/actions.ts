@@ -3,9 +3,10 @@
 import { redirect } from 'next/navigation'
 import { z } from "zod";
 
-import { db } from '../db';
 import EncryptionService from '../encryption/encryption.service';
 import { UserRole } from '../user/user-role.enum';
+import dbConnect from '@/lib/db';
+import AuthUser from '@/models/User';
 
 
 const StudentRegistrationSchema = z.object({
@@ -26,14 +27,13 @@ export async function registerStudent(formData: FormData) {
 
     const hashedPassword = await EncryptionService.hash(password);
 
-    await db.user.create({
-        data: {
-            email,
-            password: hashedPassword,
-            roleName: UserRole.Student
-        }
-    });
+    await dbConnect();
 
+    await AuthUser.create({
+        email,
+        password: hashedPassword,
+        roleName: UserRole.Student
+    });
     
     redirect("/login");
 }

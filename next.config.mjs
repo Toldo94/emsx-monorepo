@@ -5,6 +5,7 @@ const nextConfig = {
         serverActions: {
             allowedOrigins: ["*.app.github.dev", "localhost:3000"],
         },
+        runtime: "nodejs",
     },
     images: {
         remotePatterns: [
