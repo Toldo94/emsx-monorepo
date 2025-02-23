@@ -3,8 +3,14 @@
 
 import React from "react";
 import PlacementTypesSelect from "../../ui/placement-types-select";
+import { useSearchContext } from "@/lib/context/search.context";
 
 export default function SearchBar() {
+
+    const { placementTypes } = useSearchContext();
+
+    console.log("TEST", placementTypes);
+
     return (
         <div className="w-[1030px] h-[71px] flex justify-between bg-white rounded-[99px] px-8 py-4 shadow-[0px_3px_6px_0px_rgba(139,131,131,0.14)] overflow-hidden absolute" style={{ top: '-35.5px' }}>
             <div className="flex-col justify-center items-start gap-1 inline-flex">
