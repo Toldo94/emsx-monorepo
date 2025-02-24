@@ -1,15 +1,16 @@
 "use client"
 
 
-import React from "react";
+import React, { useState } from "react";
 import PlacementTypesSelect from "../../ui/placement-types-select";
 import { useSearchContext } from "@/lib/context/search.context";
+import { PlacementType } from "@/lib/type-definitions/placement-type";
 
 export default function SearchBar() {
 
     const { placementTypes } = useSearchContext();
 
-    console.log("TEST", placementTypes);
+    const [selectedPlacementTypes, setSelectedPlacementTypes] = useState<PlacementType[]>([]);
 
     return (
         <div className="w-[1030px] h-[71px] flex justify-between bg-white rounded-[99px] px-8 py-4 shadow-[0px_3px_6px_0px_rgba(139,131,131,0.14)] overflow-hidden absolute" style={{ top: '-35.5px' }}>
@@ -20,7 +21,7 @@ export default function SearchBar() {
             <div className="w-[0px] mx-8 h-auto border border-neutral-200"></div>
             <div className="max-w-[300px] flex flex-col w-full">
                 <div className="text-black text-sm font-semibold font-['Poppins']">Placement type</div>
-                <PlacementTypesSelect />
+                <PlacementTypesSelect options={placementTypes} onChange={setSelectedPlacementTypes} selectedOptions={selectedPlacementTypes} />
             </div>
             <div className="w-[0px] mx-8 h-auto border border-neutral-200"></div>
             <div className="flex justify-between">

@@ -5,6 +5,8 @@ import clsx from 'clsx'
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
+import { PlacementType } from '@/lib/type-definitions/placement-type'
+
 
 const people = [
     { id: 1, name: 'Tom Cook' },
@@ -14,13 +16,17 @@ const people = [
     { id: 5, name: 'Devon Webb' },
 ]
 
-export default function PlacementTypesSelect() {
-    const [selectedPeople, setSelectedPeople] = useState([])
+interface OwnProps {
+    onChange: (option: PlacementType[]) => void;
+    options: PlacementType[];
+    selectedOptions: PlacementType[];
+}
 
+export default function PlacementTypesSelect({ onChange, options, selectedOptions }: OwnProps) {
 
     return (
         <div className="mx-auto w-full h-full">
-            <Listbox value={selectedPeople} onChange={setSelectedPeople} multiple>
+            <Listbox value={selectedOptions} onChange={onChange} multiple>
                 <ListboxButton
                     className={clsx(
                         'relative block w-full h-full rounded-lg bg-white/5 text-left text-sm/6 overflow-hidden',
@@ -28,7 +34,7 @@ export default function PlacementTypesSelect() {
                     )}
                 >
                     <div className="truncate max-w-[17.5rem] font-normal text-sm">
-                        {selectedPeople.length > 0 ? selectedPeople.map(person => person.name).join(', ') : 'What type of placement would you like?'}
+                        {selectedOptions.length > 0 ? selectedOptions.map(option => option.name).join(', ') : 'What type of placement would you like?'}
                     </div>
                     <ChevronDownIcon
                         className="group pointer-events-none absolute top-[-1rem] right-0 size-8 fill-black/60"
@@ -43,14 +49,14 @@ export default function PlacementTypesSelect() {
                         'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0'
                     )}
                 >
-                    {people.map((person) => (
+                    {options.map((option) => (
                         <ListboxOption
-                            key={person.name}
-                            value={person}
+                            key={option.searchName}
+                            value={option}
                             className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-black/10"
                         >
                             <CheckIcon className="invisible size-4 fill-black group-data-[selected]:visible" />
-                            <div className="text-sm/6">{person.name}</div>
+                            <div className="text-sm/6">{option.name}</div>
                         </ListboxOption>
                     ))}
                 </ListboxOptions>
