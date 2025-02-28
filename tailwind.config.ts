@@ -4,13 +4,14 @@ const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     screens: {
       sm: "480px",
       md: "768px",
-      lg: "9ß76px",
+      lg: "976px",
       xl: "1440px",
     },
     extend: {
@@ -18,13 +19,7 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-      colors: {
-        darkSlateGray: "rgba(56, 60, 80, 1)",
-        mainWhite: "rgba(255, 255, 255, 1)",
-        primaryBlue: "rgba(141, 217, 251, 1)"
-
-      },
+      }
     },
   },
   plugins: [],

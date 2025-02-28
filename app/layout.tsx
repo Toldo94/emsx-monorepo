@@ -5,8 +5,6 @@ import { Providers } from "./lib/providers";
 import Navbar from "@/app/lib/components/navbar/navbar";
 import Footer from "@/app/lib/ui/footer/footer";
 
-import { SearchProvider } from "@/lib/context/search.context";
-
 import { poppins } from "@/app/lib/ui/fonts";
 
 import "./globals.css";
@@ -24,7 +22,6 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <SearchProvider> */}
         <body className={`${poppins.className} antialiased`}>
           <Providers>
             <Navbar />
@@ -32,7 +29,6 @@ export default async function RootLayout({
             <Footer />
           </Providers>
         </body>
-      {/* </SearchProvider> */}
     </html>
   );
 }
