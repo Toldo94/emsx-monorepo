@@ -1,13 +1,20 @@
 import { NextResponse, NextRequest } from "next/server";
 
-
 import dbConnect from "@/lib/db";
 import Location from "@/models/Location";
+import { Filters } from "@/enums/filters";
+
+const getPlacementTypes = (placementTypesString: string) => {
+    if (placementTypesString === '') return [];
+    return placementTypesString.split(',') || [];
+}
 
 export async function GET(request: NextRequest) {
-    const search = request.nextUrl.searchParams.get('search');
-    const latitude = 53.8007554;
-    const longitude = -1.5490774;
+    const latitude = parseFloat(request.nextUrl.searchParams.get(Filters.LATITUDE) || '0');
+    const longitude = parseFloat(request.nextUrl.searchParams.get(Filters.LONGITUDE) || '0');
+    const placementTypesString = request.nextUrl.searchParams.get(Filters.PLACEMENT_TYPES) || '';
+
+    const placementTypes = getPlacementTypes(placementTypesString);
 
     const maxDistance = 30000;
 
@@ -26,11 +33,13 @@ export async function GET(request: NextRequest) {
                 maxDistance: maxDistance
             }
         },
-        {
+        ...(placementTypes.length > 0 ? [{
             $match: {
-                placementTypeSearch: "firstOpinion"
+                $and: [
+                    { placementTypeSearch: { $in: placementTypes } }
+                ]
             }
-        },
+        }] : []),
         {
             $project: {
                 _id: 0,
@@ -42,17 +51,15 @@ export async function GET(request: NextRequest) {
                 groupId: 1,
                 groupClinic: 1,
                 groupSites: 1,
+                address: 1
             }
         },
         { $limit: 50 }
     ]);
 
-
-
-    console.log(locations);
+    // console.log(locations);
 
     return NextResponse.json({
-        "message": "Hello World",
         "latitude": latitude,
         "longitude": longitude,
         "data": locations

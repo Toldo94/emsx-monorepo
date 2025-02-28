@@ -40,8 +40,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     email: email
                 });
 
-                console.log("User from DB: ", userFromDb);
-
                 if (!userFromDb || !await EncryptionService.compare(password, userFromDb.password)) {
                     return null;
                 };

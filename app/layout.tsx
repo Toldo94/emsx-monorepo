@@ -24,7 +24,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <SearchProvider>
+      {/* <SearchProvider> */}
         <body className={`${poppins.className} antialiased`}>
           <Providers>
             <Navbar />
@@ -32,7 +32,7 @@ export default async function RootLayout({
             <Footer />
           </Providers>
         </body>
-      </SearchProvider>
+      {/* </SearchProvider> */}
     </html>
   );
 }

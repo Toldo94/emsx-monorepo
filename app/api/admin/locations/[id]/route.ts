@@ -25,7 +25,5 @@ export async function GET(
         groupSites: 1,
     });
 
-    console.log(location);
-
     return NextResponse.json(location);
   }

@@ -23,7 +23,6 @@ interface OwnProps {
 }
 
 export default function PlacementTypesSelect({ onChange, options, selectedOptions }: OwnProps) {
-
     return (
         <div className="mx-auto w-full h-full">
             <Listbox value={selectedOptions} onChange={onChange} multiple>

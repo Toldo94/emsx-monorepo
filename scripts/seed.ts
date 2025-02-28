@@ -27,7 +27,15 @@ const LocationSchema = z.object({
     location: z.object({
         latitude: z.number(),
         longitude: z.number()
-    })
+    }),
+    address: z.object({
+        street: z.string().optional(),
+        town: z.string().optional(),
+        county: z.string().optional(),
+        region: z.string().optional(),
+        country: z.string().optional(),
+        post_code: z.string().optional(),
+    }).optional()
 });
 
 const avoidZero = (val: number) => val === 0 ? 0.0 : val;
@@ -88,7 +96,8 @@ async function main() {
             location: {
                 type: "Point",
                 coordinates: [isValidLongitude(parsedLocation.location.longitude), isValidLatitude(parsedLocation.location.latitude)]
-            }
+            },
+            address: parsedLocation.address
         });
     }
 }

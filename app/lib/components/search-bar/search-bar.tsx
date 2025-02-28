@@ -1,22 +1,42 @@
 "use client"
 
 
-import React, { useState } from "react";
+import React from "react";
 import PlacementTypesSelect from "../../ui/placement-types-select";
 import { useSearchContext } from "@/lib/context/search.context";
-import { PlacementType } from "@/lib/type-definitions/placement-type";
+import { useDebounce } from "@/lib/hooks/use-debounce";
+import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
 
-    const { placementTypes } = useSearchContext();
+    const router = useRouter();
+    const { placementTypes, fetchGeoLocation, searchQuery, setSearchQuery, createSearchUrl, selectedPlacementTypes, setSelectedPlacementTypes } = useSearchContext();
 
-    const [selectedPlacementTypes, setSelectedPlacementTypes] = useState<PlacementType[]>([]);
+
+    const debouncedfetchGeoLocation = useDebounce(fetchGeoLocation, 500);
+
+    const handleSearchQueryChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const location = e.target.value;
+        setSearchQuery(location);
+        await debouncedfetchGeoLocation(location);
+    };
+
+    const onSearchClick = () => {
+        const searchUrl = createSearchUrl();
+        router.push(searchUrl);
+    }
 
     return (
-        <div className="w-[1030px] h-[71px] flex justify-between bg-white rounded-[99px] px-8 py-4 shadow-[0px_3px_6px_0px_rgba(139,131,131,0.14)] overflow-hidden absolute" style={{ top: '-35.5px' }}>
+        <>
             <div className="flex-col justify-center items-start gap-1 inline-flex">
                 <div className="text-black text-sm font-semibold font-['Poppins']">Location</div>
-                <input type="text" className="text-[#808080] text-sm font-normal font-['Poppins'] focus:outline-none" placeholder="Where would you like to go?" />
+                <input
+                    type="text"
+                    className="text-[#808080] text-sm font-normal font-['Poppins'] focus:outline-none" 
+                    placeholder="Where would you like to go?" 
+                    value={searchQuery}
+                    onChange={handleSearchQueryChange} 
+                    />
             </div>
             <div className="w-[0px] mx-8 h-auto border border-neutral-200"></div>
             <div className="max-w-[300px] flex flex-col w-full">
@@ -28,10 +48,10 @@ export default function SearchBar() {
                 <div className="items-center inline-flex mx-4">
                     <div className="text-center text-black text-sm font-medium font-['Poppins']">More filters</div>
                 </div>
-                <div className="w-[115px] h-[41px] bg-[#8dd9fb] rounded-[99px] justify-center items-center gap-2 inline-flex">
+                <div className="w-[115px] h-[41px] bg-[#8dd9fb] rounded-[99px] justify-center items-center gap-2 inline-flex cursor-pointer" onClick={onSearchClick}>
                     <div className="text-center text-black text-sm font-medium font-['Poppins']">Search</div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
