@@ -3,12 +3,14 @@ import type { Metadata } from "next";
 import { Providers } from "./lib/providers";
 
 import Navbar from "@/app/lib/components/navbar/navbar";
-
 import Footer from "@/app/lib/ui/footer/footer";
+
+import { SearchProvider } from "@/lib/context/search.context";
 
 import { poppins } from "@/app/lib/ui/fonts";
 
 import "./globals.css";
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,13 +24,15 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} antialiased`}>
-        <Providers>
-          <Navbar />
-          {children}
-          <Footer />
-        </Providers>
-      </body>
+      {/* <SearchProvider> */}
+        <body className={`${poppins.className} antialiased`}>
+          <Providers>
+            <Navbar />
+            {children}
+            <Footer />
+          </Providers>
+        </body>
+      {/* </SearchProvider> */}
     </html>
   );
 }

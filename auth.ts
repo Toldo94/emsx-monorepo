@@ -7,8 +7,7 @@ import Credentials from "next-auth/providers/credentials";
 
 import EncryptionService from "./app/lib/encryption/encryption.service";
 
-import dbConnect from "@/lib/db";
-import AuthUser from "@/models/User";
+import client from "@/lib/mongodb";
 
 
 const LoginSchema = z.object({
@@ -35,21 +34,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             authorize: async (credentials, request): Promise<User | null> => {
                 const { email, password } = LoginSchema.parse(credentials);
 
-                await dbConnect();
+                await client.connect();
 
-                const userFromDb = await AuthUser.findOne({
+                const userFromDb = await client.db().collection('users').findOne({
                     email: email
-                    });
-
-                console.log("User from DB: ", userFromDb);
+                });
 
                 if (!userFromDb || !await EncryptionService.compare(password, userFromDb.password)) {
                     return null;
                 };
 
-                console.log("User from DB: ", userFromDb.id);
 
-                
                 return {
                     id: String(userFromDb.id),
                     name: userFromDb.name || "",
@@ -61,7 +56,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     ],
     callbacks: {
         authorized({ request, auth }) {
-            console.log("Auth: ", auth);
             if (request.nextUrl.pathname === '/') {
                 return true;
             }

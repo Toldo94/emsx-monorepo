@@ -17,6 +17,14 @@ export interface ILocation extends Document {
         type: string;
         coordinates: [number, number];
     };
+    address?: {
+        street?: string;
+        town?: string;
+        county?: string;
+        region?: string;
+        country?: string;
+        post_code?: string;
+    };
     createdAt: Date;
     updatedAt: Date;
 }
@@ -37,6 +45,14 @@ const LocationSchema: Schema = new Schema<ILocation>({
     location: {
         type: { type: String, enum: ['Point'], required: true },
         coordinates: { type: [Number], required: true }
+    },
+    address: {
+        street: { type: String },
+        town: { type: String },
+        county: { type: String },
+        region: { type: String },
+        country: { type: String },
+        post_code: { type: String },
     }
 }, {
     timestamps: true,

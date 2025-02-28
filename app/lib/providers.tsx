@@ -1,5 +1,6 @@
 'use client'
 
+import { SearchProvider } from '@/lib/context/search.context'
 import { SessionProvider } from 'next-auth/react'
 
 type Props = {
@@ -7,5 +8,11 @@ type Props = {
 }
 
 export const Providers = ({ children }: Props) => {
-  return <SessionProvider>{children}</SessionProvider>
+  return (
+    <SessionProvider>
+      <SearchProvider>
+        {children}
+      </SearchProvider>
+    </SessionProvider>
+  )
 }
