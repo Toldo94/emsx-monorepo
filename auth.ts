@@ -1,27 +1,15 @@
 import { z } from "zod";
 
 import NextAuth, { User } from "next-auth";
-import { jwtDecode } from "jwt-decode";
 
 import Credentials from "next-auth/providers/credentials";
-
-import EncryptionService from "./app/lib/encryption/encryption.service";
-
-import client from "@/lib/mongodb";
+import { AuthService } from "@/lib/auth.service";
 
 
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string(),
 });
-
-
-const getTokenExpiration = (token: string): number => {
-    const decoded = jwtDecode(token);
-    const expiserAt = decoded['exp']! * 1000;
-
-    return expiserAt;
-}
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -33,24 +21,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
             authorize: async (credentials, request): Promise<User | null> => {
                 const { email, password } = LoginSchema.parse(credentials);
-
-                await client.connect();
-
-                const userFromDb = await client.db().collection('users').findOne({
-                    email: email
-                });
-
-                if (!userFromDb || !await EncryptionService.compare(password, userFromDb.password)) {
-                    return null;
-                };
-
-
-                return {
-                    id: String(userFromDb.id),
-                    name: userFromDb.name || "",
-                    email: userFromDb.email,
-                    roleName: userFromDb.roleName || "",
-                };
+                return AuthService.validateUser(email, password);
             }
         })
     ],
