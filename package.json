@@ -36,7 +36,7 @@
     "@types/react-dom": "^19",
     "@types/react-scroll": "^1.8.10",
     "autoprefixer": "^10.4.20",
-    "eslint": "9.19.0",
+    "eslint": "9.21.0",
     "eslint-config-next": "^15.2.0",
     "postcss": "^8.5.3",
     "ts-node": "^10.9.2",
