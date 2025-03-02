@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "emsx-tfstate"
-    key = "state/terraform.tfstate"
-    region = "us-west-2"
-    encrypt = true
+    bucket       = "emsx-tfstate"
+    key          = "state/terraform.tfstate"
+    region       = "eu-west-2"
+    encrypt      = true
     use_lockfile = true
   }
 
@@ -18,5 +18,5 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-west-2"
+  region = "eu-west-2"
 }
