@@ -5,6 +5,13 @@ on:
     tags:
       - 'v*.*.*' # Trigger on tags like vx.x.x
 
+env:
+  # Credentials for deployment to AWS
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: "eu-west-2"
+  ECR_REPOSITORY: "814254457911.dkr.ecr.eu-west-2.amazonaws.com/emsx-monorepo"
+
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
@@ -17,6 +24,40 @@ jobs:
       # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        run: |
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+          docker login --username AWS --password-stdin \
+          $(aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --query "repositories[0].repositoryUri" --output text | cut -d'/' -f1)
+          
+      - name: Extract tag
+        run: echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Build and Tag Docker Image
+        run: |
+          ECR_REGISTRY=$(aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --query "repositories[0].repositoryUri" --output text)
+          docker build -t $ECR_REGISTRY:${{ env.TAG }} .
+          docker tag $ECR_REGISTRY:${{ env.TAG }} $ECR_REGISTRY:latest
+
+      - name: Push Docker Image to ECR
+        run: |
+          ECR_REGISTRY=$(aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --query "repositories[0].repositoryUri" --output text)
+          docker push $ECR_REGISTRY:${{ env.TAG }}
+          docker push $ECR_REGISTRY:latest
+        
+      - name: Output ECR Image URI
+        run: |
+          ECR_REGISTRY=$(aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --query "repositories[0].repositoryUri" --output text)
+          echo "Image pushed: $ECR_REGISTRY:${{ env.TAG }}"
 
       # Log in to GitHub Container Registry
       - name: Log in to GitHub Container Registry
