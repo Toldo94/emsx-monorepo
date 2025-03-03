@@ -9,8 +9,8 @@ env:
   # Credentials for deployment to AWS
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_REGION: "eu-west-2"
-  ECR_REPOSITORY: "814254457911.dkr.ecr.eu-west-2.amazonaws.com/emsx-monorepo"
+  AWS_REGION: eu-west-2
+  ECR_REPOSITORY: 814254457911.dkr.ecr.eu-west-2.amazonaws.com/emsx-monorepo
 
 jobs:
   build_and_push:
@@ -34,6 +34,19 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+  
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: emsx-monorepo
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+      - name: Login to Amazon ECR
+        id: login-ecr-2
         run: |
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
           docker login --username AWS --password-stdin \
