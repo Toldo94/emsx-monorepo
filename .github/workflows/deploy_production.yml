@@ -39,6 +39,10 @@ jobs:
           docker login --username AWS --password-stdin \
           $(aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --query "repositories[0].repositoryUri" --output text | cut -d'/' -f1)
           
+      - name: Log in to AWS ECR
+        run: |
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REPOSITORY }}
+
       - name: Extract tag
         run: echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
