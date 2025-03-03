@@ -20,19 +20,22 @@ env:
  # Credentials for deployment to AWS
  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
- # S3 bucket for the Terraform state
- BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
 
 jobs:
- terraform:
-   name: "Terraform Infrastructure Change Management"
-   runs-on: ubuntu-latest
-   defaults:
-     run:
-       shell: bash
-       # We keep Terraform files in the terraform directory.
-       working-directory: ./infra
-   steps:
+  terraform:
+    name: "Terraform Infrastructure Change Management"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        # We keep Terraform files in the terraform directory.
+        working-directory: ./infra
+    steps:
      - name: Checkout the repository to the runner
        uses: actions/checkout@v4
 
