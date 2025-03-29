@@ -17,13 +17,22 @@ const getLocationsQuery = (longitude: number, latitude: number, maxDistance: num
     if (filters.length > 0) {
         return Prisma.sql`
             SELECT
-            l.id,
-            l.name, 
-            ST_DistanceSphere(l.location, ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)) AS distance
-        FROM "Location" l
-        JOIN "AttributesOnLocations" al ON al."locationId" = l.id
-        WHERE ST_DistanceSphere(l.location, ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)) <= ${maxDistance}
-            AND al."attributeId" = ANY(${filters})
+                l.id,
+                l.name, 
+                ST_DistanceSphere(l.location, ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)) AS distance,
+                json_agg(
+                    json_build_object(
+                        'id', a.id,
+                        'name', a.name,
+                        'typeName', a."typeName"
+                    )
+                ) AS attributes
+            FROM "Location" l
+            JOIN "AttributesOnLocations" al ON al."locationId" = l.id
+            JOIN "Attribute" a ON a.id = al."attributeId"
+            WHERE ST_DistanceSphere(l.location, ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)) <= ${maxDistance}
+              AND al."attributeId" = ANY(${filters})
+            GROUP BY l.id, l.name
             ORDER BY distance ASC
             LIMIT 50;
         `;
@@ -33,13 +42,24 @@ const getLocationsQuery = (longitude: number, latitude: number, maxDistance: num
         SELECT
             l.id,
             l.name, 
-            ST_DistanceSphere(l.location, ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)) AS distance
+            ST_DistanceSphere(l.location, ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)) AS distance,
+            json_agg(
+                json_build_object(
+                    'id', a.id,
+                    'name', a.name,
+                    'typeName', a."typeName"
+                )
+            ) AS attributes
         FROM "Location" l
+        JOIN "AttributesOnLocations" al ON al."locationId" = l.id
+        JOIN "Attribute" a ON a.id = al."attributeId"
         WHERE ST_DistanceSphere(l.location, ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)) <= ${maxDistance}
+        GROUP BY l.id, l.name
         ORDER BY distance ASC
         LIMIT 50;
     `;
 }
+
 
 export async function GET(request: NextRequest) {
     const latitude = parseFloat(request.nextUrl.searchParams.get(Filters.LATITUDE) || '0');
