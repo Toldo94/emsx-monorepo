@@ -1106,18 +1106,6 @@ export namespace Prisma {
             args: Prisma.LocationFindManyArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LocationPayload>[]
           }
-          create: {
-            args: Prisma.LocationCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LocationPayload>
-          }
-          createMany: {
-            args: Prisma.LocationCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.LocationCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LocationPayload>[]
-          }
           delete: {
             args: Prisma.LocationDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LocationPayload>
@@ -1137,10 +1125,6 @@ export namespace Prisma {
           updateManyAndReturn: {
             args: Prisma.LocationUpdateManyAndReturnArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LocationPayload>[]
-          }
-          upsert: {
-            args: Prisma.LocationUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LocationPayload>
           }
           aggregate: {
             args: Prisma.LocationAggregateArgs<ExtArgs>
@@ -1478,12 +1462,10 @@ export namespace Prisma {
 
   export type AttributeCountOutputType = {
     locations: number
-    AttributesOnLocations: number
   }
 
   export type AttributeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     locations?: boolean | AttributeCountOutputTypeCountLocationsArgs
-    AttributesOnLocations?: boolean | AttributeCountOutputTypeCountAttributesOnLocationsArgs
   }
 
   // Custom InputTypes
@@ -1501,13 +1483,6 @@ export namespace Prisma {
    * AttributeCountOutputType without action
    */
   export type AttributeCountOutputTypeCountLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LocationWhereInput
-  }
-
-  /**
-   * AttributeCountOutputType without action
-   */
-  export type AttributeCountOutputTypeCountAttributesOnLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttributesOnLocationsWhereInput
   }
 
@@ -1549,12 +1524,10 @@ export namespace Prisma {
 
   export type LocationCountOutputType = {
     attributes: number
-    AttributesOnLocations: number
   }
 
   export type LocationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attributes?: boolean | LocationCountOutputTypeCountAttributesArgs
-    AttributesOnLocations?: boolean | LocationCountOutputTypeCountAttributesOnLocationsArgs
   }
 
   // Custom InputTypes
@@ -1572,13 +1545,6 @@ export namespace Prisma {
    * LocationCountOutputType without action
    */
   export type LocationCountOutputTypeCountAttributesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AttributeWhereInput
-  }
-
-  /**
-   * LocationCountOutputType without action
-   */
-  export type LocationCountOutputTypeCountAttributesOnLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttributesOnLocationsWhereInput
   }
 
@@ -5044,7 +5010,6 @@ export namespace Prisma {
     updatedAt?: boolean
     type?: boolean | AttributeTypeDefaultArgs<ExtArgs>
     locations?: boolean | Attribute$locationsArgs<ExtArgs>
-    AttributesOnLocations?: boolean | Attribute$AttributesOnLocationsArgs<ExtArgs>
     _count?: boolean | AttributeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attribute"]>
 
@@ -5081,7 +5046,6 @@ export namespace Prisma {
   export type AttributeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     type?: boolean | AttributeTypeDefaultArgs<ExtArgs>
     locations?: boolean | Attribute$locationsArgs<ExtArgs>
-    AttributesOnLocations?: boolean | Attribute$AttributesOnLocationsArgs<ExtArgs>
     _count?: boolean | AttributeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AttributeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5095,8 +5059,7 @@ export namespace Prisma {
     name: "Attribute"
     objects: {
       type: Prisma.$AttributeTypePayload<ExtArgs>
-      locations: Prisma.$LocationPayload<ExtArgs>[]
-      AttributesOnLocations: Prisma.$AttributesOnLocationsPayload<ExtArgs>[]
+      locations: Prisma.$AttributesOnLocationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5500,8 +5463,7 @@ export namespace Prisma {
   export interface Prisma__AttributeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     type<T extends AttributeTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AttributeTypeDefaultArgs<ExtArgs>>): Prisma__AttributeTypeClient<$Result.GetResult<Prisma.$AttributeTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    locations<T extends Attribute$locationsArgs<ExtArgs> = {}>(args?: Subset<T, Attribute$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    AttributesOnLocations<T extends Attribute$AttributesOnLocationsArgs<ExtArgs> = {}>(args?: Subset<T, Attribute$AttributesOnLocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttributesOnLocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    locations<T extends Attribute$locationsArgs<ExtArgs> = {}>(args?: Subset<T, Attribute$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttributesOnLocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5936,30 +5898,6 @@ export namespace Prisma {
    * Attribute.locations
    */
   export type Attribute$locationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Location
-     */
-    select?: LocationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Location
-     */
-    omit?: LocationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LocationInclude<ExtArgs> | null
-    where?: LocationWhereInput
-    orderBy?: LocationOrderByWithRelationInput | LocationOrderByWithRelationInput[]
-    cursor?: LocationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: LocationScalarFieldEnum | LocationScalarFieldEnum[]
-  }
-
-  /**
-   * Attribute.AttributesOnLocations
-   */
-  export type Attribute$AttributesOnLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AttributesOnLocations
      */
@@ -7331,21 +7269,9 @@ export namespace Prisma {
     updatedAt?: boolean
     veterinaryGroup?: boolean | VeterinaryGroupDefaultArgs<ExtArgs>
     attributes?: boolean | Location$attributesArgs<ExtArgs>
-    AttributesOnLocations?: boolean | Location$AttributesOnLocationsArgs<ExtArgs>
     _count?: boolean | LocationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["location"]>
 
-  export type LocationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    veterinaryGroupId?: boolean
-    locationId?: boolean
-    groupHq?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    veterinaryGroup?: boolean | VeterinaryGroupDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["location"]>
 
   export type LocationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
@@ -7374,11 +7300,7 @@ export namespace Prisma {
   export type LocationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     veterinaryGroup?: boolean | VeterinaryGroupDefaultArgs<ExtArgs>
     attributes?: boolean | Location$attributesArgs<ExtArgs>
-    AttributesOnLocations?: boolean | Location$AttributesOnLocationsArgs<ExtArgs>
     _count?: boolean | LocationCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type LocationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    veterinaryGroup?: boolean | VeterinaryGroupDefaultArgs<ExtArgs>
   }
   export type LocationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     veterinaryGroup?: boolean | VeterinaryGroupDefaultArgs<ExtArgs>
@@ -7388,8 +7310,7 @@ export namespace Prisma {
     name: "Location"
     objects: {
       veterinaryGroup: Prisma.$VeterinaryGroupPayload<ExtArgs>
-      attributes: Prisma.$AttributePayload<ExtArgs>[]
-      AttributesOnLocations: Prisma.$AttributesOnLocationsPayload<ExtArgs>[]
+      attributes: Prisma.$AttributesOnLocationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -7490,58 +7411,6 @@ export namespace Prisma {
     findMany<T extends LocationFindManyArgs>(args?: SelectSubset<T, LocationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Location.
-     * @param {LocationCreateArgs} args - Arguments to create a Location.
-     * @example
-     * // Create one Location
-     * const Location = await prisma.location.create({
-     *   data: {
-     *     // ... data to create a Location
-     *   }
-     * })
-     * 
-     */
-    create<T extends LocationCreateArgs>(args: SelectSubset<T, LocationCreateArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Locations.
-     * @param {LocationCreateManyArgs} args - Arguments to create many Locations.
-     * @example
-     * // Create many Locations
-     * const location = await prisma.location.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends LocationCreateManyArgs>(args?: SelectSubset<T, LocationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Locations and returns the data saved in the database.
-     * @param {LocationCreateManyAndReturnArgs} args - Arguments to create many Locations.
-     * @example
-     * // Create many Locations
-     * const location = await prisma.location.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Locations and only return the `id`
-     * const locationWithIdOnly = await prisma.location.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends LocationCreateManyAndReturnArgs>(args?: SelectSubset<T, LocationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Location.
      * @param {LocationDeleteArgs} args - Arguments to delete one Location.
      * @example
@@ -7634,25 +7503,6 @@ export namespace Prisma {
      * 
      */
     updateManyAndReturn<T extends LocationUpdateManyAndReturnArgs>(args: SelectSubset<T, LocationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Location.
-     * @param {LocationUpsertArgs} args - Arguments to update or create a Location.
-     * @example
-     * // Update or create a Location
-     * const location = await prisma.location.upsert({
-     *   create: {
-     *     // ... data to create a Location
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Location we want to update
-     *   }
-     * })
-     */
-    upsert<T extends LocationUpsertArgs>(args: SelectSubset<T, LocationUpsertArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
@@ -7795,8 +7645,7 @@ export namespace Prisma {
   export interface Prisma__LocationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     veterinaryGroup<T extends VeterinaryGroupDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VeterinaryGroupDefaultArgs<ExtArgs>>): Prisma__VeterinaryGroupClient<$Result.GetResult<Prisma.$VeterinaryGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    attributes<T extends Location$attributesArgs<ExtArgs> = {}>(args?: Subset<T, Location$attributesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttributePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    AttributesOnLocations<T extends Location$AttributesOnLocationsArgs<ExtArgs> = {}>(args?: Subset<T, Location$AttributesOnLocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttributesOnLocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attributes<T extends Location$attributesArgs<ExtArgs> = {}>(args?: Subset<T, Location$attributesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttributesOnLocationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8034,62 +7883,6 @@ export namespace Prisma {
   }
 
   /**
-   * Location create
-   */
-  export type LocationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Location
-     */
-    select?: LocationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Location
-     */
-    omit?: LocationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LocationInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Location.
-     */
-    data: XOR<LocationCreateInput, LocationUncheckedCreateInput>
-  }
-
-  /**
-   * Location createMany
-   */
-  export type LocationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Locations.
-     */
-    data: LocationCreateManyInput | LocationCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Location createManyAndReturn
-   */
-  export type LocationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Location
-     */
-    select?: LocationSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Location
-     */
-    omit?: LocationOmit<ExtArgs> | null
-    /**
-     * The data used to create many Locations.
-     */
-    data: LocationCreateManyInput | LocationCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LocationIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Location update
    */
   export type LocationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8164,36 +7957,6 @@ export namespace Prisma {
   }
 
   /**
-   * Location upsert
-   */
-  export type LocationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Location
-     */
-    select?: LocationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Location
-     */
-    omit?: LocationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LocationInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Location to update in case it exists.
-     */
-    where: LocationWhereUniqueInput
-    /**
-     * In case the Location found by the `where` argument doesn't exist, create a new Location with this data.
-     */
-    create: XOR<LocationCreateInput, LocationUncheckedCreateInput>
-    /**
-     * In case the Location was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<LocationUpdateInput, LocationUncheckedUpdateInput>
-  }
-
-  /**
    * Location delete
    */
   export type LocationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8233,30 +7996,6 @@ export namespace Prisma {
    * Location.attributes
    */
   export type Location$attributesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Attribute
-     */
-    select?: AttributeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Attribute
-     */
-    omit?: AttributeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AttributeInclude<ExtArgs> | null
-    where?: AttributeWhereInput
-    orderBy?: AttributeOrderByWithRelationInput | AttributeOrderByWithRelationInput[]
-    cursor?: AttributeWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AttributeScalarFieldEnum | AttributeScalarFieldEnum[]
-  }
-
-  /**
-   * Location.AttributesOnLocations
-   */
-  export type Location$AttributesOnLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AttributesOnLocations
      */
@@ -9732,8 +9471,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Attribute"> | Date | string
     updatedAt?: DateTimeFilter<"Attribute"> | Date | string
     type?: XOR<AttributeTypeScalarRelationFilter, AttributeTypeWhereInput>
-    locations?: LocationListRelationFilter
-    AttributesOnLocations?: AttributesOnLocationsListRelationFilter
+    locations?: AttributesOnLocationsListRelationFilter
   }
 
   export type AttributeOrderByWithRelationInput = {
@@ -9744,8 +9482,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     type?: AttributeTypeOrderByWithRelationInput
-    locations?: LocationOrderByRelationAggregateInput
-    AttributesOnLocations?: AttributesOnLocationsOrderByRelationAggregateInput
+    locations?: AttributesOnLocationsOrderByRelationAggregateInput
   }
 
   export type AttributeWhereUniqueInput = Prisma.AtLeast<{
@@ -9759,8 +9496,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Attribute"> | Date | string
     updatedAt?: DateTimeFilter<"Attribute"> | Date | string
     type?: XOR<AttributeTypeScalarRelationFilter, AttributeTypeWhereInput>
-    locations?: LocationListRelationFilter
-    AttributesOnLocations?: AttributesOnLocationsListRelationFilter
+    locations?: AttributesOnLocationsListRelationFilter
   }, "id">
 
   export type AttributeOrderByWithAggregationInput = {
@@ -9859,8 +9595,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Location"> | Date | string
     updatedAt?: DateTimeFilter<"Location"> | Date | string
     veterinaryGroup?: XOR<VeterinaryGroupScalarRelationFilter, VeterinaryGroupWhereInput>
-    attributes?: AttributeListRelationFilter
-    AttributesOnLocations?: AttributesOnLocationsListRelationFilter
+    attributes?: AttributesOnLocationsListRelationFilter
   }
 
   export type LocationOrderByWithRelationInput = {
@@ -9873,8 +9608,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     veterinaryGroup?: VeterinaryGroupOrderByWithRelationInput
-    attributes?: AttributeOrderByRelationAggregateInput
-    AttributesOnLocations?: AttributesOnLocationsOrderByRelationAggregateInput
+    attributes?: AttributesOnLocationsOrderByRelationAggregateInput
   }
 
   export type LocationWhereUniqueInput = Prisma.AtLeast<{
@@ -9890,8 +9624,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Location"> | Date | string
     updatedAt?: DateTimeFilter<"Location"> | Date | string
     veterinaryGroup?: XOR<VeterinaryGroupScalarRelationFilter, VeterinaryGroupWhereInput>
-    attributes?: AttributeListRelationFilter
-    AttributesOnLocations?: AttributesOnLocationsListRelationFilter
+    attributes?: AttributesOnLocationsListRelationFilter
   }, "id" | "locationId">
 
   export type LocationOrderByWithAggregationInput = {
@@ -10155,8 +9888,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     type: AttributeTypeCreateNestedOneWithoutAttributesInput
-    locations?: LocationCreateNestedManyWithoutAttributesInput
-    AttributesOnLocations?: AttributesOnLocationsCreateNestedManyWithoutAttributeInput
+    locations?: AttributesOnLocationsCreateNestedManyWithoutAttributeInput
   }
 
   export type AttributeUncheckedCreateInput = {
@@ -10166,8 +9898,7 @@ export namespace Prisma {
     typeName: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    locations?: LocationUncheckedCreateNestedManyWithoutAttributesInput
-    AttributesOnLocations?: AttributesOnLocationsUncheckedCreateNestedManyWithoutAttributeInput
+    locations?: AttributesOnLocationsUncheckedCreateNestedManyWithoutAttributeInput
   }
 
   export type AttributeUpdateInput = {
@@ -10176,8 +9907,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: AttributeTypeUpdateOneRequiredWithoutAttributesNestedInput
-    locations?: LocationUpdateManyWithoutAttributesNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUpdateManyWithoutAttributeNestedInput
+    locations?: AttributesOnLocationsUpdateManyWithoutAttributeNestedInput
   }
 
   export type AttributeUncheckedUpdateInput = {
@@ -10187,8 +9917,7 @@ export namespace Prisma {
     typeName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    locations?: LocationUncheckedUpdateManyWithoutAttributesNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUncheckedUpdateManyWithoutAttributeNestedInput
+    locations?: AttributesOnLocationsUncheckedUpdateManyWithoutAttributeNestedInput
   }
 
   export type AttributeCreateManyInput = {
@@ -10273,31 +10002,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LocationCreateInput = {
-    name: string
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    veterinaryGroup: VeterinaryGroupCreateNestedOneWithoutLocationsInput
-    attributes?: AttributeCreateNestedManyWithoutLocationsInput
-    AttributesOnLocations?: AttributesOnLocationsCreateNestedManyWithoutLocationInput
-  }
-
-  export type LocationUncheckedCreateInput = {
-    id?: number
-    name: string
-    veterinaryGroupId: number
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attributes?: AttributeUncheckedCreateNestedManyWithoutLocationsInput
-    AttributesOnLocations?: AttributesOnLocationsUncheckedCreateNestedManyWithoutLocationInput
-  }
-
   export type LocationUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     locationId?: StringFieldUpdateOperationsInput | string
@@ -10306,8 +10010,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     veterinaryGroup?: VeterinaryGroupUpdateOneRequiredWithoutLocationsNestedInput
-    attributes?: AttributeUpdateManyWithoutLocationsNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUpdateManyWithoutLocationNestedInput
+    attributes?: AttributesOnLocationsUpdateManyWithoutLocationNestedInput
   }
 
   export type LocationUncheckedUpdateInput = {
@@ -10319,19 +10022,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attributes?: AttributeUncheckedUpdateManyWithoutLocationsNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUncheckedUpdateManyWithoutLocationNestedInput
-  }
-
-  export type LocationCreateManyInput = {
-    id?: number
-    name: string
-    veterinaryGroupId: number
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    attributes?: AttributesOnLocationsUncheckedUpdateManyWithoutLocationNestedInput
   }
 
   export type LocationUpdateManyMutationInput = {
@@ -10355,8 +10046,8 @@ export namespace Prisma {
   }
 
   export type AttributesOnLocationsCreateInput = {
-    location: LocationCreateNestedOneWithoutAttributesOnLocationsInput
-    attribute: AttributeCreateNestedOneWithoutAttributesOnLocationsInput
+    location: LocationCreateNestedOneWithoutAttributesInput
+    attribute: AttributeCreateNestedOneWithoutLocationsInput
   }
 
   export type AttributesOnLocationsUncheckedCreateInput = {
@@ -10365,8 +10056,8 @@ export namespace Prisma {
   }
 
   export type AttributesOnLocationsUpdateInput = {
-    location?: LocationUpdateOneRequiredWithoutAttributesOnLocationsNestedInput
-    attribute?: AttributeUpdateOneRequiredWithoutAttributesOnLocationsNestedInput
+    location?: LocationUpdateOneRequiredWithoutAttributesNestedInput
+    attribute?: AttributeUpdateOneRequiredWithoutLocationsNestedInput
   }
 
   export type AttributesOnLocationsUncheckedUpdateInput = {
@@ -10624,20 +10315,10 @@ export namespace Prisma {
     isNot?: AttributeTypeWhereInput
   }
 
-  export type LocationListRelationFilter = {
-    every?: LocationWhereInput
-    some?: LocationWhereInput
-    none?: LocationWhereInput
-  }
-
   export type AttributesOnLocationsListRelationFilter = {
     every?: AttributesOnLocationsWhereInput
     some?: AttributesOnLocationsWhereInput
     none?: AttributesOnLocationsWhereInput
-  }
-
-  export type LocationOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type AttributesOnLocationsOrderByRelationAggregateInput = {
@@ -10679,6 +10360,16 @@ export namespace Prisma {
   export type AttributeSumOrderByAggregateInput = {
     id?: SortOrder
     order?: SortOrder
+  }
+
+  export type LocationListRelationFilter = {
+    every?: LocationWhereInput
+    some?: LocationWhereInput
+    none?: LocationWhereInput
+  }
+
+  export type LocationOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type VeterinaryGroupCountOrderByAggregateInput = {
@@ -10938,23 +10629,11 @@ export namespace Prisma {
     connect?: AttributeTypeWhereUniqueInput
   }
 
-  export type LocationCreateNestedManyWithoutAttributesInput = {
-    create?: XOR<LocationCreateWithoutAttributesInput, LocationUncheckedCreateWithoutAttributesInput> | LocationCreateWithoutAttributesInput[] | LocationUncheckedCreateWithoutAttributesInput[]
-    connectOrCreate?: LocationCreateOrConnectWithoutAttributesInput | LocationCreateOrConnectWithoutAttributesInput[]
-    connect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-  }
-
   export type AttributesOnLocationsCreateNestedManyWithoutAttributeInput = {
     create?: XOR<AttributesOnLocationsCreateWithoutAttributeInput, AttributesOnLocationsUncheckedCreateWithoutAttributeInput> | AttributesOnLocationsCreateWithoutAttributeInput[] | AttributesOnLocationsUncheckedCreateWithoutAttributeInput[]
     connectOrCreate?: AttributesOnLocationsCreateOrConnectWithoutAttributeInput | AttributesOnLocationsCreateOrConnectWithoutAttributeInput[]
     createMany?: AttributesOnLocationsCreateManyAttributeInputEnvelope
     connect?: AttributesOnLocationsWhereUniqueInput | AttributesOnLocationsWhereUniqueInput[]
-  }
-
-  export type LocationUncheckedCreateNestedManyWithoutAttributesInput = {
-    create?: XOR<LocationCreateWithoutAttributesInput, LocationUncheckedCreateWithoutAttributesInput> | LocationCreateWithoutAttributesInput[] | LocationUncheckedCreateWithoutAttributesInput[]
-    connectOrCreate?: LocationCreateOrConnectWithoutAttributesInput | LocationCreateOrConnectWithoutAttributesInput[]
-    connect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
   }
 
   export type AttributesOnLocationsUncheckedCreateNestedManyWithoutAttributeInput = {
@@ -10972,19 +10651,6 @@ export namespace Prisma {
     update?: XOR<XOR<AttributeTypeUpdateToOneWithWhereWithoutAttributesInput, AttributeTypeUpdateWithoutAttributesInput>, AttributeTypeUncheckedUpdateWithoutAttributesInput>
   }
 
-  export type LocationUpdateManyWithoutAttributesNestedInput = {
-    create?: XOR<LocationCreateWithoutAttributesInput, LocationUncheckedCreateWithoutAttributesInput> | LocationCreateWithoutAttributesInput[] | LocationUncheckedCreateWithoutAttributesInput[]
-    connectOrCreate?: LocationCreateOrConnectWithoutAttributesInput | LocationCreateOrConnectWithoutAttributesInput[]
-    upsert?: LocationUpsertWithWhereUniqueWithoutAttributesInput | LocationUpsertWithWhereUniqueWithoutAttributesInput[]
-    set?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-    disconnect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-    delete?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-    connect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-    update?: LocationUpdateWithWhereUniqueWithoutAttributesInput | LocationUpdateWithWhereUniqueWithoutAttributesInput[]
-    updateMany?: LocationUpdateManyWithWhereWithoutAttributesInput | LocationUpdateManyWithWhereWithoutAttributesInput[]
-    deleteMany?: LocationScalarWhereInput | LocationScalarWhereInput[]
-  }
-
   export type AttributesOnLocationsUpdateManyWithoutAttributeNestedInput = {
     create?: XOR<AttributesOnLocationsCreateWithoutAttributeInput, AttributesOnLocationsUncheckedCreateWithoutAttributeInput> | AttributesOnLocationsCreateWithoutAttributeInput[] | AttributesOnLocationsUncheckedCreateWithoutAttributeInput[]
     connectOrCreate?: AttributesOnLocationsCreateOrConnectWithoutAttributeInput | AttributesOnLocationsCreateOrConnectWithoutAttributeInput[]
@@ -10997,19 +10663,6 @@ export namespace Prisma {
     update?: AttributesOnLocationsUpdateWithWhereUniqueWithoutAttributeInput | AttributesOnLocationsUpdateWithWhereUniqueWithoutAttributeInput[]
     updateMany?: AttributesOnLocationsUpdateManyWithWhereWithoutAttributeInput | AttributesOnLocationsUpdateManyWithWhereWithoutAttributeInput[]
     deleteMany?: AttributesOnLocationsScalarWhereInput | AttributesOnLocationsScalarWhereInput[]
-  }
-
-  export type LocationUncheckedUpdateManyWithoutAttributesNestedInput = {
-    create?: XOR<LocationCreateWithoutAttributesInput, LocationUncheckedCreateWithoutAttributesInput> | LocationCreateWithoutAttributesInput[] | LocationUncheckedCreateWithoutAttributesInput[]
-    connectOrCreate?: LocationCreateOrConnectWithoutAttributesInput | LocationCreateOrConnectWithoutAttributesInput[]
-    upsert?: LocationUpsertWithWhereUniqueWithoutAttributesInput | LocationUpsertWithWhereUniqueWithoutAttributesInput[]
-    set?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-    disconnect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-    delete?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-    connect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-    update?: LocationUpdateWithWhereUniqueWithoutAttributesInput | LocationUpdateWithWhereUniqueWithoutAttributesInput[]
-    updateMany?: LocationUpdateManyWithWhereWithoutAttributesInput | LocationUpdateManyWithWhereWithoutAttributesInput[]
-    deleteMany?: LocationScalarWhereInput | LocationScalarWhereInput[]
   }
 
   export type AttributesOnLocationsUncheckedUpdateManyWithoutAttributeNestedInput = {
@@ -11027,24 +10680,14 @@ export namespace Prisma {
   }
 
   export type LocationCreateNestedManyWithoutVeterinaryGroupInput = {
-    create?: XOR<LocationCreateWithoutVeterinaryGroupInput, LocationUncheckedCreateWithoutVeterinaryGroupInput> | LocationCreateWithoutVeterinaryGroupInput[] | LocationUncheckedCreateWithoutVeterinaryGroupInput[]
-    connectOrCreate?: LocationCreateOrConnectWithoutVeterinaryGroupInput | LocationCreateOrConnectWithoutVeterinaryGroupInput[]
-    createMany?: LocationCreateManyVeterinaryGroupInputEnvelope
     connect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
   }
 
   export type LocationUncheckedCreateNestedManyWithoutVeterinaryGroupInput = {
-    create?: XOR<LocationCreateWithoutVeterinaryGroupInput, LocationUncheckedCreateWithoutVeterinaryGroupInput> | LocationCreateWithoutVeterinaryGroupInput[] | LocationUncheckedCreateWithoutVeterinaryGroupInput[]
-    connectOrCreate?: LocationCreateOrConnectWithoutVeterinaryGroupInput | LocationCreateOrConnectWithoutVeterinaryGroupInput[]
-    createMany?: LocationCreateManyVeterinaryGroupInputEnvelope
     connect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
   }
 
   export type LocationUpdateManyWithoutVeterinaryGroupNestedInput = {
-    create?: XOR<LocationCreateWithoutVeterinaryGroupInput, LocationUncheckedCreateWithoutVeterinaryGroupInput> | LocationCreateWithoutVeterinaryGroupInput[] | LocationUncheckedCreateWithoutVeterinaryGroupInput[]
-    connectOrCreate?: LocationCreateOrConnectWithoutVeterinaryGroupInput | LocationCreateOrConnectWithoutVeterinaryGroupInput[]
-    upsert?: LocationUpsertWithWhereUniqueWithoutVeterinaryGroupInput | LocationUpsertWithWhereUniqueWithoutVeterinaryGroupInput[]
-    createMany?: LocationCreateManyVeterinaryGroupInputEnvelope
     set?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
     disconnect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
     delete?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
@@ -11055,10 +10698,6 @@ export namespace Prisma {
   }
 
   export type LocationUncheckedUpdateManyWithoutVeterinaryGroupNestedInput = {
-    create?: XOR<LocationCreateWithoutVeterinaryGroupInput, LocationUncheckedCreateWithoutVeterinaryGroupInput> | LocationCreateWithoutVeterinaryGroupInput[] | LocationUncheckedCreateWithoutVeterinaryGroupInput[]
-    connectOrCreate?: LocationCreateOrConnectWithoutVeterinaryGroupInput | LocationCreateOrConnectWithoutVeterinaryGroupInput[]
-    upsert?: LocationUpsertWithWhereUniqueWithoutVeterinaryGroupInput | LocationUpsertWithWhereUniqueWithoutVeterinaryGroupInput[]
-    createMany?: LocationCreateManyVeterinaryGroupInputEnvelope
     set?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
     disconnect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
     delete?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
@@ -11066,38 +10705,6 @@ export namespace Prisma {
     update?: LocationUpdateWithWhereUniqueWithoutVeterinaryGroupInput | LocationUpdateWithWhereUniqueWithoutVeterinaryGroupInput[]
     updateMany?: LocationUpdateManyWithWhereWithoutVeterinaryGroupInput | LocationUpdateManyWithWhereWithoutVeterinaryGroupInput[]
     deleteMany?: LocationScalarWhereInput | LocationScalarWhereInput[]
-  }
-
-  export type VeterinaryGroupCreateNestedOneWithoutLocationsInput = {
-    create?: XOR<VeterinaryGroupCreateWithoutLocationsInput, VeterinaryGroupUncheckedCreateWithoutLocationsInput>
-    connectOrCreate?: VeterinaryGroupCreateOrConnectWithoutLocationsInput
-    connect?: VeterinaryGroupWhereUniqueInput
-  }
-
-  export type AttributeCreateNestedManyWithoutLocationsInput = {
-    create?: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput> | AttributeCreateWithoutLocationsInput[] | AttributeUncheckedCreateWithoutLocationsInput[]
-    connectOrCreate?: AttributeCreateOrConnectWithoutLocationsInput | AttributeCreateOrConnectWithoutLocationsInput[]
-    connect?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-  }
-
-  export type AttributesOnLocationsCreateNestedManyWithoutLocationInput = {
-    create?: XOR<AttributesOnLocationsCreateWithoutLocationInput, AttributesOnLocationsUncheckedCreateWithoutLocationInput> | AttributesOnLocationsCreateWithoutLocationInput[] | AttributesOnLocationsUncheckedCreateWithoutLocationInput[]
-    connectOrCreate?: AttributesOnLocationsCreateOrConnectWithoutLocationInput | AttributesOnLocationsCreateOrConnectWithoutLocationInput[]
-    createMany?: AttributesOnLocationsCreateManyLocationInputEnvelope
-    connect?: AttributesOnLocationsWhereUniqueInput | AttributesOnLocationsWhereUniqueInput[]
-  }
-
-  export type AttributeUncheckedCreateNestedManyWithoutLocationsInput = {
-    create?: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput> | AttributeCreateWithoutLocationsInput[] | AttributeUncheckedCreateWithoutLocationsInput[]
-    connectOrCreate?: AttributeCreateOrConnectWithoutLocationsInput | AttributeCreateOrConnectWithoutLocationsInput[]
-    connect?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-  }
-
-  export type AttributesOnLocationsUncheckedCreateNestedManyWithoutLocationInput = {
-    create?: XOR<AttributesOnLocationsCreateWithoutLocationInput, AttributesOnLocationsUncheckedCreateWithoutLocationInput> | AttributesOnLocationsCreateWithoutLocationInput[] | AttributesOnLocationsUncheckedCreateWithoutLocationInput[]
-    connectOrCreate?: AttributesOnLocationsCreateOrConnectWithoutLocationInput | AttributesOnLocationsCreateOrConnectWithoutLocationInput[]
-    createMany?: AttributesOnLocationsCreateManyLocationInputEnvelope
-    connect?: AttributesOnLocationsWhereUniqueInput | AttributesOnLocationsWhereUniqueInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -11110,19 +10717,6 @@ export namespace Prisma {
     upsert?: VeterinaryGroupUpsertWithoutLocationsInput
     connect?: VeterinaryGroupWhereUniqueInput
     update?: XOR<XOR<VeterinaryGroupUpdateToOneWithWhereWithoutLocationsInput, VeterinaryGroupUpdateWithoutLocationsInput>, VeterinaryGroupUncheckedUpdateWithoutLocationsInput>
-  }
-
-  export type AttributeUpdateManyWithoutLocationsNestedInput = {
-    create?: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput> | AttributeCreateWithoutLocationsInput[] | AttributeUncheckedCreateWithoutLocationsInput[]
-    connectOrCreate?: AttributeCreateOrConnectWithoutLocationsInput | AttributeCreateOrConnectWithoutLocationsInput[]
-    upsert?: AttributeUpsertWithWhereUniqueWithoutLocationsInput | AttributeUpsertWithWhereUniqueWithoutLocationsInput[]
-    set?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-    disconnect?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-    delete?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-    connect?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-    update?: AttributeUpdateWithWhereUniqueWithoutLocationsInput | AttributeUpdateWithWhereUniqueWithoutLocationsInput[]
-    updateMany?: AttributeUpdateManyWithWhereWithoutLocationsInput | AttributeUpdateManyWithWhereWithoutLocationsInput[]
-    deleteMany?: AttributeScalarWhereInput | AttributeScalarWhereInput[]
   }
 
   export type AttributesOnLocationsUpdateManyWithoutLocationNestedInput = {
@@ -11139,19 +10733,6 @@ export namespace Prisma {
     deleteMany?: AttributesOnLocationsScalarWhereInput | AttributesOnLocationsScalarWhereInput[]
   }
 
-  export type AttributeUncheckedUpdateManyWithoutLocationsNestedInput = {
-    create?: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput> | AttributeCreateWithoutLocationsInput[] | AttributeUncheckedCreateWithoutLocationsInput[]
-    connectOrCreate?: AttributeCreateOrConnectWithoutLocationsInput | AttributeCreateOrConnectWithoutLocationsInput[]
-    upsert?: AttributeUpsertWithWhereUniqueWithoutLocationsInput | AttributeUpsertWithWhereUniqueWithoutLocationsInput[]
-    set?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-    disconnect?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-    delete?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-    connect?: AttributeWhereUniqueInput | AttributeWhereUniqueInput[]
-    update?: AttributeUpdateWithWhereUniqueWithoutLocationsInput | AttributeUpdateWithWhereUniqueWithoutLocationsInput[]
-    updateMany?: AttributeUpdateManyWithWhereWithoutLocationsInput | AttributeUpdateManyWithWhereWithoutLocationsInput[]
-    deleteMany?: AttributeScalarWhereInput | AttributeScalarWhereInput[]
-  }
-
   export type AttributesOnLocationsUncheckedUpdateManyWithoutLocationNestedInput = {
     create?: XOR<AttributesOnLocationsCreateWithoutLocationInput, AttributesOnLocationsUncheckedCreateWithoutLocationInput> | AttributesOnLocationsCreateWithoutLocationInput[] | AttributesOnLocationsUncheckedCreateWithoutLocationInput[]
     connectOrCreate?: AttributesOnLocationsCreateOrConnectWithoutLocationInput | AttributesOnLocationsCreateOrConnectWithoutLocationInput[]
@@ -11166,32 +10747,27 @@ export namespace Prisma {
     deleteMany?: AttributesOnLocationsScalarWhereInput | AttributesOnLocationsScalarWhereInput[]
   }
 
-  export type LocationCreateNestedOneWithoutAttributesOnLocationsInput = {
-    create?: XOR<LocationCreateWithoutAttributesOnLocationsInput, LocationUncheckedCreateWithoutAttributesOnLocationsInput>
-    connectOrCreate?: LocationCreateOrConnectWithoutAttributesOnLocationsInput
+  export type LocationCreateNestedOneWithoutAttributesInput = {
     connect?: LocationWhereUniqueInput
   }
 
-  export type AttributeCreateNestedOneWithoutAttributesOnLocationsInput = {
-    create?: XOR<AttributeCreateWithoutAttributesOnLocationsInput, AttributeUncheckedCreateWithoutAttributesOnLocationsInput>
-    connectOrCreate?: AttributeCreateOrConnectWithoutAttributesOnLocationsInput
+  export type AttributeCreateNestedOneWithoutLocationsInput = {
+    create?: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput>
+    connectOrCreate?: AttributeCreateOrConnectWithoutLocationsInput
     connect?: AttributeWhereUniqueInput
   }
 
-  export type LocationUpdateOneRequiredWithoutAttributesOnLocationsNestedInput = {
-    create?: XOR<LocationCreateWithoutAttributesOnLocationsInput, LocationUncheckedCreateWithoutAttributesOnLocationsInput>
-    connectOrCreate?: LocationCreateOrConnectWithoutAttributesOnLocationsInput
-    upsert?: LocationUpsertWithoutAttributesOnLocationsInput
+  export type LocationUpdateOneRequiredWithoutAttributesNestedInput = {
     connect?: LocationWhereUniqueInput
-    update?: XOR<XOR<LocationUpdateToOneWithWhereWithoutAttributesOnLocationsInput, LocationUpdateWithoutAttributesOnLocationsInput>, LocationUncheckedUpdateWithoutAttributesOnLocationsInput>
+    update?: XOR<XOR<LocationUpdateToOneWithWhereWithoutAttributesInput, LocationUpdateWithoutAttributesInput>, LocationUncheckedUpdateWithoutAttributesInput>
   }
 
-  export type AttributeUpdateOneRequiredWithoutAttributesOnLocationsNestedInput = {
-    create?: XOR<AttributeCreateWithoutAttributesOnLocationsInput, AttributeUncheckedCreateWithoutAttributesOnLocationsInput>
-    connectOrCreate?: AttributeCreateOrConnectWithoutAttributesOnLocationsInput
-    upsert?: AttributeUpsertWithoutAttributesOnLocationsInput
+  export type AttributeUpdateOneRequiredWithoutLocationsNestedInput = {
+    create?: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput>
+    connectOrCreate?: AttributeCreateOrConnectWithoutLocationsInput
+    upsert?: AttributeUpsertWithoutLocationsInput
     connect?: AttributeWhereUniqueInput
-    update?: XOR<XOR<AttributeUpdateToOneWithWhereWithoutAttributesOnLocationsInput, AttributeUpdateWithoutAttributesOnLocationsInput>, AttributeUncheckedUpdateWithoutAttributesOnLocationsInput>
+    update?: XOR<XOR<AttributeUpdateToOneWithWhereWithoutLocationsInput, AttributeUpdateWithoutLocationsInput>, AttributeUncheckedUpdateWithoutLocationsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11451,8 +11027,7 @@ export namespace Prisma {
     order: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    locations?: LocationCreateNestedManyWithoutAttributesInput
-    AttributesOnLocations?: AttributesOnLocationsCreateNestedManyWithoutAttributeInput
+    locations?: AttributesOnLocationsCreateNestedManyWithoutAttributeInput
   }
 
   export type AttributeUncheckedCreateWithoutTypeInput = {
@@ -11461,8 +11036,7 @@ export namespace Prisma {
     order: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    locations?: LocationUncheckedCreateNestedManyWithoutAttributesInput
-    AttributesOnLocations?: AttributesOnLocationsUncheckedCreateNestedManyWithoutAttributeInput
+    locations?: AttributesOnLocationsUncheckedCreateNestedManyWithoutAttributeInput
   }
 
   export type AttributeCreateOrConnectWithoutTypeInput = {
@@ -11522,36 +11096,8 @@ export namespace Prisma {
     create: XOR<AttributeTypeCreateWithoutAttributesInput, AttributeTypeUncheckedCreateWithoutAttributesInput>
   }
 
-  export type LocationCreateWithoutAttributesInput = {
-    name: string
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    veterinaryGroup: VeterinaryGroupCreateNestedOneWithoutLocationsInput
-    AttributesOnLocations?: AttributesOnLocationsCreateNestedManyWithoutLocationInput
-  }
-
-  export type LocationUncheckedCreateWithoutAttributesInput = {
-    id?: number
-    name: string
-    veterinaryGroupId: number
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    AttributesOnLocations?: AttributesOnLocationsUncheckedCreateNestedManyWithoutLocationInput
-  }
-
-  export type LocationCreateOrConnectWithoutAttributesInput = {
-    where: LocationWhereUniqueInput
-    create: XOR<LocationCreateWithoutAttributesInput, LocationUncheckedCreateWithoutAttributesInput>
-  }
-
   export type AttributesOnLocationsCreateWithoutAttributeInput = {
-    location: LocationCreateNestedOneWithoutAttributesOnLocationsInput
+    location: LocationCreateNestedOneWithoutAttributesInput
   }
 
   export type AttributesOnLocationsUncheckedCreateWithoutAttributeInput = {
@@ -11593,36 +11139,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LocationUpsertWithWhereUniqueWithoutAttributesInput = {
-    where: LocationWhereUniqueInput
-    update: XOR<LocationUpdateWithoutAttributesInput, LocationUncheckedUpdateWithoutAttributesInput>
-    create: XOR<LocationCreateWithoutAttributesInput, LocationUncheckedCreateWithoutAttributesInput>
-  }
-
-  export type LocationUpdateWithWhereUniqueWithoutAttributesInput = {
-    where: LocationWhereUniqueInput
-    data: XOR<LocationUpdateWithoutAttributesInput, LocationUncheckedUpdateWithoutAttributesInput>
-  }
-
-  export type LocationUpdateManyWithWhereWithoutAttributesInput = {
-    where: LocationScalarWhereInput
-    data: XOR<LocationUpdateManyMutationInput, LocationUncheckedUpdateManyWithoutAttributesInput>
-  }
-
-  export type LocationScalarWhereInput = {
-    AND?: LocationScalarWhereInput | LocationScalarWhereInput[]
-    OR?: LocationScalarWhereInput[]
-    NOT?: LocationScalarWhereInput | LocationScalarWhereInput[]
-    id?: IntFilter<"Location"> | number
-    name?: StringFilter<"Location"> | string
-    veterinaryGroupId?: IntFilter<"Location"> | number
-    locationId?: StringFilter<"Location"> | string
-    groupHq?: BoolFilter<"Location"> | boolean
-    status?: StringFilter<"Location"> | string
-    createdAt?: DateTimeFilter<"Location"> | Date | string
-    updatedAt?: DateTimeFilter<"Location"> | Date | string
-  }
-
   export type AttributesOnLocationsUpsertWithWhereUniqueWithoutAttributeInput = {
     where: AttributesOnLocationsWhereUniqueInput
     update: XOR<AttributesOnLocationsUpdateWithoutAttributeInput, AttributesOnLocationsUncheckedUpdateWithoutAttributeInput>
@@ -11647,45 +11163,6 @@ export namespace Prisma {
     attributeId?: IntFilter<"AttributesOnLocations"> | number
   }
 
-  export type LocationCreateWithoutVeterinaryGroupInput = {
-    name: string
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attributes?: AttributeCreateNestedManyWithoutLocationsInput
-    AttributesOnLocations?: AttributesOnLocationsCreateNestedManyWithoutLocationInput
-  }
-
-  export type LocationUncheckedCreateWithoutVeterinaryGroupInput = {
-    id?: number
-    name: string
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attributes?: AttributeUncheckedCreateNestedManyWithoutLocationsInput
-    AttributesOnLocations?: AttributesOnLocationsUncheckedCreateNestedManyWithoutLocationInput
-  }
-
-  export type LocationCreateOrConnectWithoutVeterinaryGroupInput = {
-    where: LocationWhereUniqueInput
-    create: XOR<LocationCreateWithoutVeterinaryGroupInput, LocationUncheckedCreateWithoutVeterinaryGroupInput>
-  }
-
-  export type LocationCreateManyVeterinaryGroupInputEnvelope = {
-    data: LocationCreateManyVeterinaryGroupInput | LocationCreateManyVeterinaryGroupInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type LocationUpsertWithWhereUniqueWithoutVeterinaryGroupInput = {
-    where: LocationWhereUniqueInput
-    update: XOR<LocationUpdateWithoutVeterinaryGroupInput, LocationUncheckedUpdateWithoutVeterinaryGroupInput>
-    create: XOR<LocationCreateWithoutVeterinaryGroupInput, LocationUncheckedCreateWithoutVeterinaryGroupInput>
-  }
-
   export type LocationUpdateWithWhereUniqueWithoutVeterinaryGroupInput = {
     where: LocationWhereUniqueInput
     data: XOR<LocationUpdateWithoutVeterinaryGroupInput, LocationUncheckedUpdateWithoutVeterinaryGroupInput>
@@ -11694,6 +11171,20 @@ export namespace Prisma {
   export type LocationUpdateManyWithWhereWithoutVeterinaryGroupInput = {
     where: LocationScalarWhereInput
     data: XOR<LocationUpdateManyMutationInput, LocationUncheckedUpdateManyWithoutVeterinaryGroupInput>
+  }
+
+  export type LocationScalarWhereInput = {
+    AND?: LocationScalarWhereInput | LocationScalarWhereInput[]
+    OR?: LocationScalarWhereInput[]
+    NOT?: LocationScalarWhereInput | LocationScalarWhereInput[]
+    id?: IntFilter<"Location"> | number
+    name?: StringFilter<"Location"> | string
+    veterinaryGroupId?: IntFilter<"Location"> | number
+    locationId?: StringFilter<"Location"> | string
+    groupHq?: BoolFilter<"Location"> | boolean
+    status?: StringFilter<"Location"> | string
+    createdAt?: DateTimeFilter<"Location"> | Date | string
+    updatedAt?: DateTimeFilter<"Location"> | Date | string
   }
 
   export type VeterinaryGroupCreateWithoutLocationsInput = {
@@ -11714,48 +11205,6 @@ export namespace Prisma {
   export type VeterinaryGroupCreateOrConnectWithoutLocationsInput = {
     where: VeterinaryGroupWhereUniqueInput
     create: XOR<VeterinaryGroupCreateWithoutLocationsInput, VeterinaryGroupUncheckedCreateWithoutLocationsInput>
-  }
-
-  export type AttributeCreateWithoutLocationsInput = {
-    name: string
-    order: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    type: AttributeTypeCreateNestedOneWithoutAttributesInput
-    AttributesOnLocations?: AttributesOnLocationsCreateNestedManyWithoutAttributeInput
-  }
-
-  export type AttributeUncheckedCreateWithoutLocationsInput = {
-    id?: number
-    name: string
-    order: number
-    typeName: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    AttributesOnLocations?: AttributesOnLocationsUncheckedCreateNestedManyWithoutAttributeInput
-  }
-
-  export type AttributeCreateOrConnectWithoutLocationsInput = {
-    where: AttributeWhereUniqueInput
-    create: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput>
-  }
-
-  export type AttributesOnLocationsCreateWithoutLocationInput = {
-    attribute: AttributeCreateNestedOneWithoutAttributesOnLocationsInput
-  }
-
-  export type AttributesOnLocationsUncheckedCreateWithoutLocationInput = {
-    attributeId: number
-  }
-
-  export type AttributesOnLocationsCreateOrConnectWithoutLocationInput = {
-    where: AttributesOnLocationsWhereUniqueInput
-    create: XOR<AttributesOnLocationsCreateWithoutLocationInput, AttributesOnLocationsUncheckedCreateWithoutLocationInput>
-  }
-
-  export type AttributesOnLocationsCreateManyLocationInputEnvelope = {
-    data: AttributesOnLocationsCreateManyLocationInput | AttributesOnLocationsCreateManyLocationInput[]
-    skipDuplicates?: boolean
   }
 
   export type VeterinaryGroupUpsertWithoutLocationsInput = {
@@ -11784,26 +11233,28 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttributeUpsertWithWhereUniqueWithoutLocationsInput = {
-    where: AttributeWhereUniqueInput
-    update: XOR<AttributeUpdateWithoutLocationsInput, AttributeUncheckedUpdateWithoutLocationsInput>
-    create: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput>
+  export type AttributesOnLocationsCreateWithoutLocationInput = {
+    attribute: AttributeCreateNestedOneWithoutLocationsInput
   }
 
-  export type AttributeUpdateWithWhereUniqueWithoutLocationsInput = {
-    where: AttributeWhereUniqueInput
-    data: XOR<AttributeUpdateWithoutLocationsInput, AttributeUncheckedUpdateWithoutLocationsInput>
+  export type AttributesOnLocationsUncheckedCreateWithoutLocationInput = {
+    attributeId: number
   }
 
-  export type AttributeUpdateManyWithWhereWithoutLocationsInput = {
-    where: AttributeScalarWhereInput
-    data: XOR<AttributeUpdateManyMutationInput, AttributeUncheckedUpdateManyWithoutLocationsInput>
+  export type AttributesOnLocationsCreateOrConnectWithoutLocationInput = {
+    where: AttributesOnLocationsWhereUniqueInput
+    create: XOR<AttributesOnLocationsCreateWithoutLocationInput, AttributesOnLocationsUncheckedCreateWithoutLocationInput>
   }
 
   export type AttributesOnLocationsUpsertWithWhereUniqueWithoutLocationInput = {
     where: AttributesOnLocationsWhereUniqueInput
     update: XOR<AttributesOnLocationsUpdateWithoutLocationInput, AttributesOnLocationsUncheckedUpdateWithoutLocationInput>
     create: XOR<AttributesOnLocationsCreateWithoutLocationInput, AttributesOnLocationsUncheckedCreateWithoutLocationInput>
+  }
+
+  export type AttributesOnLocationsCreateManyLocationInputEnvelope = {
+    data: AttributesOnLocationsCreateManyLocationInput | AttributesOnLocationsCreateManyLocationInput[]
+    skipDuplicates?: boolean
   }
 
   export type AttributesOnLocationsUpdateWithWhereUniqueWithoutLocationInput = {
@@ -11816,70 +11267,34 @@ export namespace Prisma {
     data: XOR<AttributesOnLocationsUpdateManyMutationInput, AttributesOnLocationsUncheckedUpdateManyWithoutLocationInput>
   }
 
-  export type LocationCreateWithoutAttributesOnLocationsInput = {
-    name: string
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    veterinaryGroup: VeterinaryGroupCreateNestedOneWithoutLocationsInput
-    attributes?: AttributeCreateNestedManyWithoutLocationsInput
-  }
-
-  export type LocationUncheckedCreateWithoutAttributesOnLocationsInput = {
-    id?: number
-    name: string
-    veterinaryGroupId: number
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attributes?: AttributeUncheckedCreateNestedManyWithoutLocationsInput
-  }
-
-  export type LocationCreateOrConnectWithoutAttributesOnLocationsInput = {
-    where: LocationWhereUniqueInput
-    create: XOR<LocationCreateWithoutAttributesOnLocationsInput, LocationUncheckedCreateWithoutAttributesOnLocationsInput>
-  }
-
-  export type AttributeCreateWithoutAttributesOnLocationsInput = {
+  export type AttributeCreateWithoutLocationsInput = {
     name: string
     order: number
     createdAt?: Date | string
     updatedAt?: Date | string
     type: AttributeTypeCreateNestedOneWithoutAttributesInput
-    locations?: LocationCreateNestedManyWithoutAttributesInput
   }
 
-  export type AttributeUncheckedCreateWithoutAttributesOnLocationsInput = {
+  export type AttributeUncheckedCreateWithoutLocationsInput = {
     id?: number
     name: string
     order: number
     typeName: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    locations?: LocationUncheckedCreateNestedManyWithoutAttributesInput
   }
 
-  export type AttributeCreateOrConnectWithoutAttributesOnLocationsInput = {
+  export type AttributeCreateOrConnectWithoutLocationsInput = {
     where: AttributeWhereUniqueInput
-    create: XOR<AttributeCreateWithoutAttributesOnLocationsInput, AttributeUncheckedCreateWithoutAttributesOnLocationsInput>
+    create: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput>
   }
 
-  export type LocationUpsertWithoutAttributesOnLocationsInput = {
-    update: XOR<LocationUpdateWithoutAttributesOnLocationsInput, LocationUncheckedUpdateWithoutAttributesOnLocationsInput>
-    create: XOR<LocationCreateWithoutAttributesOnLocationsInput, LocationUncheckedCreateWithoutAttributesOnLocationsInput>
+  export type LocationUpdateToOneWithWhereWithoutAttributesInput = {
     where?: LocationWhereInput
+    data: XOR<LocationUpdateWithoutAttributesInput, LocationUncheckedUpdateWithoutAttributesInput>
   }
 
-  export type LocationUpdateToOneWithWhereWithoutAttributesOnLocationsInput = {
-    where?: LocationWhereInput
-    data: XOR<LocationUpdateWithoutAttributesOnLocationsInput, LocationUncheckedUpdateWithoutAttributesOnLocationsInput>
-  }
-
-  export type LocationUpdateWithoutAttributesOnLocationsInput = {
+  export type LocationUpdateWithoutAttributesInput = {
     name?: StringFieldUpdateOperationsInput | string
     locationId?: StringFieldUpdateOperationsInput | string
     groupHq?: BoolFieldUpdateOperationsInput | boolean
@@ -11887,10 +11302,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     veterinaryGroup?: VeterinaryGroupUpdateOneRequiredWithoutLocationsNestedInput
-    attributes?: AttributeUpdateManyWithoutLocationsNestedInput
   }
 
-  export type LocationUncheckedUpdateWithoutAttributesOnLocationsInput = {
+  export type LocationUncheckedUpdateWithoutAttributesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     veterinaryGroupId?: IntFieldUpdateOperationsInput | number
@@ -11899,37 +11313,34 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attributes?: AttributeUncheckedUpdateManyWithoutLocationsNestedInput
   }
 
-  export type AttributeUpsertWithoutAttributesOnLocationsInput = {
-    update: XOR<AttributeUpdateWithoutAttributesOnLocationsInput, AttributeUncheckedUpdateWithoutAttributesOnLocationsInput>
-    create: XOR<AttributeCreateWithoutAttributesOnLocationsInput, AttributeUncheckedCreateWithoutAttributesOnLocationsInput>
+  export type AttributeUpsertWithoutLocationsInput = {
+    update: XOR<AttributeUpdateWithoutLocationsInput, AttributeUncheckedUpdateWithoutLocationsInput>
+    create: XOR<AttributeCreateWithoutLocationsInput, AttributeUncheckedCreateWithoutLocationsInput>
     where?: AttributeWhereInput
   }
 
-  export type AttributeUpdateToOneWithWhereWithoutAttributesOnLocationsInput = {
+  export type AttributeUpdateToOneWithWhereWithoutLocationsInput = {
     where?: AttributeWhereInput
-    data: XOR<AttributeUpdateWithoutAttributesOnLocationsInput, AttributeUncheckedUpdateWithoutAttributesOnLocationsInput>
+    data: XOR<AttributeUpdateWithoutLocationsInput, AttributeUncheckedUpdateWithoutLocationsInput>
   }
 
-  export type AttributeUpdateWithoutAttributesOnLocationsInput = {
+  export type AttributeUpdateWithoutLocationsInput = {
     name?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: AttributeTypeUpdateOneRequiredWithoutAttributesNestedInput
-    locations?: LocationUpdateManyWithoutAttributesNestedInput
   }
 
-  export type AttributeUncheckedUpdateWithoutAttributesOnLocationsInput = {
+  export type AttributeUncheckedUpdateWithoutLocationsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     typeName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    locations?: LocationUncheckedUpdateManyWithoutAttributesNestedInput
   }
 
   export type UserCreateManyRoleInput = {
@@ -11984,8 +11395,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    locations?: LocationUpdateManyWithoutAttributesNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUpdateManyWithoutAttributeNestedInput
+    locations?: AttributesOnLocationsUpdateManyWithoutAttributeNestedInput
   }
 
   export type AttributeUncheckedUpdateWithoutTypeInput = {
@@ -11994,8 +11404,7 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    locations?: LocationUncheckedUpdateManyWithoutAttributesNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUncheckedUpdateManyWithoutAttributeNestedInput
+    locations?: AttributesOnLocationsUncheckedUpdateManyWithoutAttributeNestedInput
   }
 
   export type AttributeUncheckedUpdateManyWithoutTypeInput = {
@@ -12010,42 +11419,8 @@ export namespace Prisma {
     locationId: number
   }
 
-  export type LocationUpdateWithoutAttributesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    locationId?: StringFieldUpdateOperationsInput | string
-    groupHq?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    veterinaryGroup?: VeterinaryGroupUpdateOneRequiredWithoutLocationsNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUpdateManyWithoutLocationNestedInput
-  }
-
-  export type LocationUncheckedUpdateWithoutAttributesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    veterinaryGroupId?: IntFieldUpdateOperationsInput | number
-    locationId?: StringFieldUpdateOperationsInput | string
-    groupHq?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    AttributesOnLocations?: AttributesOnLocationsUncheckedUpdateManyWithoutLocationNestedInput
-  }
-
-  export type LocationUncheckedUpdateManyWithoutAttributesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    veterinaryGroupId?: IntFieldUpdateOperationsInput | number
-    locationId?: StringFieldUpdateOperationsInput | string
-    groupHq?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type AttributesOnLocationsUpdateWithoutAttributeInput = {
-    location?: LocationUpdateOneRequiredWithoutAttributesOnLocationsNestedInput
+    location?: LocationUpdateOneRequiredWithoutAttributesNestedInput
   }
 
   export type AttributesOnLocationsUncheckedUpdateWithoutAttributeInput = {
@@ -12056,16 +11431,6 @@ export namespace Prisma {
     locationId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type LocationCreateManyVeterinaryGroupInput = {
-    id?: number
-    name: string
-    locationId: string
-    groupHq?: boolean
-    status: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type LocationUpdateWithoutVeterinaryGroupInput = {
     name?: StringFieldUpdateOperationsInput | string
     locationId?: StringFieldUpdateOperationsInput | string
@@ -12073,8 +11438,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attributes?: AttributeUpdateManyWithoutLocationsNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUpdateManyWithoutLocationNestedInput
+    attributes?: AttributesOnLocationsUpdateManyWithoutLocationNestedInput
   }
 
   export type LocationUncheckedUpdateWithoutVeterinaryGroupInput = {
@@ -12085,8 +11449,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attributes?: AttributeUncheckedUpdateManyWithoutLocationsNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUncheckedUpdateManyWithoutLocationNestedInput
+    attributes?: AttributesOnLocationsUncheckedUpdateManyWithoutLocationNestedInput
   }
 
   export type LocationUncheckedUpdateManyWithoutVeterinaryGroupInput = {
@@ -12099,44 +11462,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttributesOnLocationsCreateManyLocationInput = {
-    attributeId: number
-  }
-
-  export type AttributeUpdateWithoutLocationsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    type?: AttributeTypeUpdateOneRequiredWithoutAttributesNestedInput
-    AttributesOnLocations?: AttributesOnLocationsUpdateManyWithoutAttributeNestedInput
-  }
-
-  export type AttributeUncheckedUpdateWithoutLocationsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    typeName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    AttributesOnLocations?: AttributesOnLocationsUncheckedUpdateManyWithoutAttributeNestedInput
-  }
-
-  export type AttributeUncheckedUpdateManyWithoutLocationsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    typeName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type AttributesOnLocationsUpdateWithoutLocationInput = {
-    attribute?: AttributeUpdateOneRequiredWithoutAttributesOnLocationsNestedInput
+    attribute?: AttributeUpdateOneRequiredWithoutLocationsNestedInput
   }
 
   export type AttributesOnLocationsUncheckedUpdateWithoutLocationInput = {
     attributeId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AttributesOnLocationsCreateManyLocationInput = {
+    attributeId: number
   }
 
   export type AttributesOnLocationsUncheckedUpdateManyWithoutLocationInput = {

@@ -54,28 +54,68 @@ export async function main() {
                 group_id: parsedLocation.group_id,
             }
         });
+        
+        const placementType = await prisma.attribute.findFirst({
+            where: {
+                name: parsedLocation.placement_type.trim(),
+            },
+        });
+
+        if (placementType === null) {
+            throw new Error("Placement type not found");
+        }
+        
+        
 
         console.log("Veterinary group", veterinaryGroup);
 
+        let placementLocation: any = null;
+
         try {
-            await prisma.$executeRaw`
-      INSERT INTO "Location" (name, "locationId", "groupHq", status, "veterinaryGroupId", location, "createdAt", "updatedAt")
-      VALUES (
-        ${parsedLocation.name.trim()},
-        ${parsedLocation.location_id},
-        ${parsedLocation.group_hq},
-        ${parsedLocation.status},
-        ${veterinaryGroup.id},
-        ST_SetSRID(ST_MakePoint(${parsedLocation.location.longitude}, ${parsedLocation.location.latitude}), 4326),
-        NOW(),
-        NOW()
-      )
-      RETURNING *;
-    `;
+            placementLocation = await prisma.$queryRaw`
+                INSERT INTO "Location" (name, "locationId", "groupHq", status, "veterinaryGroupId", location, "createdAt", "updatedAt")
+                VALUES (
+                    ${parsedLocation.name.trim()},
+                    ${parsedLocation.location_id},
+                    ${parsedLocation.group_hq},
+                    ${parsedLocation.status},
+                    ${veterinaryGroup.id},
+                    ST_SetSRID(ST_MakePoint(${parsedLocation.location.longitude}, ${parsedLocation.location.latitude}), 4326),
+                    NOW(),
+                    NOW()
+                )
+                RETURNING id;
+                `;
         } catch (error) {
             console.error(error);
             break;
         }
+
+        const placementLocationId = placementLocation[0]?.id;
+
+        if (placementLocationId === undefined) {
+            throw new Error("Failed to retrieve placement location id");
+        }
+
+        const createLocation = await prisma.location.update({
+            data: {
+                attributes: {
+                   create: {
+                    attribute: {
+                        connect: {
+                            id: placementType.id
+                        }
+                    }
+                   }
+                }
+            },
+            where: {
+                id: placementLocationId
+            }
+        })
+
+
+
     }
 
 

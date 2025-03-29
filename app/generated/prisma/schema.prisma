@@ -54,8 +54,7 @@ model Attribute {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
-  locations             Location[]
-  AttributesOnLocations AttributesOnLocations[]
+  locations AttributesOnLocations[]
 }
 
 model VeterinaryGroup {
@@ -69,20 +68,20 @@ model VeterinaryGroup {
 }
 
 model Location {
-  id                Int                                   @id @default(autoincrement())
+  id                Int                                  @id @default(autoincrement())
   name              String
   veterinaryGroupId Int
-  locationId        String                                @unique
-  groupHq           Boolean                               @default(false)
+  locationId        String                               @unique
+  groupHq           Boolean                              @default(false)
   status            String
-  location          Unsupported("geometry(Point, 4326)")? @default(dbgenerated("null"))
+  location          Unsupported("geometry(Point, 4326)")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  veterinaryGroup       VeterinaryGroup         @relation(fields: [veterinaryGroupId], references: [id])
-  attributes            Attribute[]
-  AttributesOnLocations AttributesOnLocations[]
+  veterinaryGroup VeterinaryGroup @relation(fields: [veterinaryGroupId], references: [id])
+
+  attributes AttributesOnLocations[]
 
   @@index([location], name: "location_idx", type: Gist)
 }

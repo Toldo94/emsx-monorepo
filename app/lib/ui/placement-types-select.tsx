@@ -50,7 +50,7 @@ export default function PlacementTypesSelect({ onChange, options, selectedOption
                 >
                     {options.map((option) => (
                         <ListboxOption
-                            key={option.searchName}
+                            key={option.id}
                             value={option}
                             className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-black/10"
                         >

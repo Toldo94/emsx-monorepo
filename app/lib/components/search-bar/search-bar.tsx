@@ -32,11 +32,11 @@ export default function SearchBar() {
                 <div className="text-black text-sm font-semibold font-['Poppins']">Location</div>
                 <input
                     type="text"
-                    className="text-[#808080] text-sm font-normal font-['Poppins'] focus:outline-none" 
-                    placeholder="Where would you like to go?" 
+                    className="text-[#808080] text-sm font-normal font-['Poppins'] focus:outline-none"
+                    placeholder="Where would you like to go?"
                     value={searchQuery}
-                    onChange={handleSearchQueryChange} 
-                    />
+                    onChange={handleSearchQueryChange}
+                />
             </div>
             <div className="w-[0px] mx-8 h-auto border border-neutral-200"></div>
             <div className="max-w-[300px] flex flex-col w-full">
@@ -48,7 +48,9 @@ export default function SearchBar() {
                 <div className="items-center inline-flex mx-4">
                     <div className="text-center text-black text-sm font-medium font-['Poppins']">More filters</div>
                 </div>
-                <div className="w-[115px] h-[41px] bg-[#8dd9fb] rounded-[99px] justify-center items-center gap-2 inline-flex cursor-pointer" onClick={onSearchClick}>
+                <div className="w-[115px] h-[41px] bg-[#8dd9fb] rounded-[99px] justify-center items-center gap-2 inline-flex cursor-pointer"
+                    onClick={onSearchClick}
+                >
                     <div className="text-center text-black text-sm font-medium font-['Poppins']">Search</div>
                 </div>
             </div>

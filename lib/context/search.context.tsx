@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, Suspense, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 
@@ -11,6 +11,7 @@ import { getGeoLocation } from "@/server/search/geo-location";
 import { Filters } from "@/enums/filters";
 import { getLocations } from "@/server/search/locations";
 import { LocationResponseSchema, Location } from "../type-definitions/location";
+import { FILTERS_QUERY_PARAM } from "../../app/lib/util/filters";
 
 interface SearchContextType {
     searchQuery: string;
@@ -71,8 +72,11 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const fetchLocations = async () => {
+        console.log("Fetch locations: geoLocation: ", geoLocation);
         if (!geoLocation) return;
-        const locationsData = await getLocations(geoLocation.latitude, geoLocation.longitude, selectedPlacementTypes.map(placementType => placementType.searchName));
+        
+        console.log("Fetch locations: selected placement types: ", selectedPlacementTypes);
+        const locationsData = await getLocations(geoLocation.latitude, geoLocation.longitude, selectedPlacementTypes.map(placementType => placementType.id));
         const parsedLocations = LocationResponseSchema.parse(locationsData);
         setLocations(parsedLocations.data);
     }
@@ -87,7 +91,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         }
 
         if (selectedPlacementTypes.length > 0) {
-            searchParams.set(Filters.PLACEMENT_TYPES, selectedPlacementTypes.map(placementType => placementType.searchName).join(','));
+            searchParams.set(FILTERS_QUERY_PARAM, selectedPlacementTypes.map(placementType => placementType.id).join(','));
         }
 
         return `/search?${searchParams.toString()}`;
@@ -97,7 +101,13 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         const address = searchParams.get(Filters.ADDRESS) || "";
         const latitude = parseFloat(searchParams.get(Filters.LATITUDE) || '0');
         const longitude = parseFloat(searchParams.get(Filters.LONGITUDE) || '0');
-        const searchPlacementTypes = searchParams.get(Filters.PLACEMENT_TYPES)?.split(',') || [];
+
+
+        const filters = searchParams.get(FILTERS_QUERY_PARAM) || "";
+        const searchPlacementTypes = filters.split(',').map(Number);
+
+        console.log("Filters: ", filters);
+        console.log("Search placement types: ", searchPlacementTypes);
 
         if (address) {
             setGeoLocation({
@@ -108,7 +118,8 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         }
 
         if (searchPlacementTypes.length > 0) {
-            const filteredPlacementTypes = placementTypes.filter((type: PlacementType) => searchPlacementTypes.includes(type.searchName));
+            const filteredPlacementTypes = placementTypes.filter((type: PlacementType) => searchPlacementTypes.includes(type.id));
+            console.log("Filtered placement types: ", filteredPlacementTypes);
             setSelectedPlacementTypes(filteredPlacementTypes);
         }
     }
