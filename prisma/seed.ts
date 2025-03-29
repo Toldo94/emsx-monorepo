@@ -1,15 +1,8 @@
 import { PrismaClient, Prisma } from '../app/generated/prisma';
 
 import fs from 'fs';
-import dotenv from 'dotenv';
-
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { z } from 'zod';
 
-import dbConnect from '@/lib/db';
-import Location from '@/models/Location';
-import PlacementType from '@/models/PlacementType';
 
 const prisma = new PrismaClient();
 
@@ -50,26 +43,35 @@ export async function main() {
 
     for (const location of locations) {
         const parsedLocation = LocationSchema.parse(location);
+
+        const veterinaryGroup = await prisma.veterinaryGroup.upsert({
+            where: {
+                group_id: parsedLocation.group_id,
+            },
+            update: {},
+            create: {
+                name: parsedLocation.veterinary_group.trim(),
+                group_id: parsedLocation.group_id,
+            }
+        });
+
+        console.log("Veterinary group", veterinaryGroup);
+
         try {
-            await prisma.location.create({
-                data: {
-                    name: parsedLocation.name.trim(),
-                    locationId: parsedLocation.location_id,
-                    groupHq: parsedLocation.group_hq,
-                    status: parsedLocation.status,
-                    veterinaryGroup: {
-                        connectOrCreate: {
-                            where: {
-                                group_id: parsedLocation.group_id,
-                            },
-                            create: {
-                                name: parsedLocation.veterinary_group.trim(),
-                                group_id: parsedLocation.group_id,
-                            }
-                        }
-                    }
-                }
-            });
+            await prisma.$executeRaw`
+      INSERT INTO "Location" (name, "locationId", "groupHq", status, "veterinaryGroupId", location, "createdAt", "updatedAt")
+      VALUES (
+        ${parsedLocation.name.trim()},
+        ${parsedLocation.location_id},
+        ${parsedLocation.group_hq},
+        ${parsedLocation.status},
+        ${veterinaryGroup.id},
+        ST_SetSRID(ST_MakePoint(${parsedLocation.location.longitude}, ${parsedLocation.location.latitude}), 4326),
+        NOW(),
+        NOW()
+      )
+      RETURNING *;
+    `;
         } catch (error) {
             console.error(error);
             break;

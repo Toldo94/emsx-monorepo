@@ -1,29 +1,25 @@
 import { NextResponse } from "next/server";
 
 
-import dbConnect from "@/lib/db";
-import Location from "@/models/Location";
+import prisma from "@/lib/prisma";
 
 export async function GET(
-    request: Request,
-    { params }: { params: Promise<{ id: string }> }
-  ) {
-    const id = (await params).id // 'a', 'b', or 'c'
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const id = (await params).id // 'a', 'b', or 'c'
 
-    await dbConnect();
+  const location = await prisma.location.findUnique({
+    where: {
+      id: parseInt(id)
+    },
+    select: {
+      id: true,
+      name: true,
+      veterinaryGroup: true,
+      locationId: true,
+    }
+  });
 
-    const location = await Location.findById(id).select({
-        _id: 0,
-        id: "$_id",
-        name: 1,
-        veterinaryGroup: 1,
-        locationId: 1,
-        placementTypeSearch: 1,
-        placementType: 1,
-        groupId: 1,
-        groupClinic: 1,
-        groupSites: 1,
-    });
-
-    return NextResponse.json(location);
-  }
+  return NextResponse.json(location);
+}

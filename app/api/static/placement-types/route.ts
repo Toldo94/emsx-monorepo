@@ -1,15 +1,23 @@
 import { NextResponse, NextRequest } from "next/server";
 
+import prisma from "@/lib/prisma";
 
-import dbConnect from "@/lib/db";
-import PlacementType from "@/models/PlacementType";
+import { Attributes } from "@/enums/attributes";
 
 export async function GET(request: NextRequest) {
-    // await dbConnect();
+    const placementTypes = await prisma.attribute.findMany({
+        where: {
+            typeName: Attributes.PLACEMENT_TYPE
+        },
+        orderBy: {
+            order: "asc"
+        }
+    });
 
-    // const placementTypes = await PlacementType.find({});
+
+    console.log(placementTypes);
 
     return NextResponse.json({
-        data: []
+        data: placementTypes
     });
 }

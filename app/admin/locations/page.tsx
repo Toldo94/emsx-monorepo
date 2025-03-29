@@ -13,6 +13,9 @@ export default function AdminDashboardLocations() {
         httpClient.get(`/api/admin/locations`).then(res => setLocations(res.data));
     }, []);
 
+
+    console.log("Locations", locations);
+
     return (
         <main className="min-h-screen">
             <div className="my-4 flex">
@@ -34,7 +37,7 @@ export default function AdminDashboardLocations() {
                     <Link key={location.id} href={`/admin/locations/${location.id}`}>
                         <div className="p-4 border border-gray-300 rounded shadow">
                             <h2 className="text-xl font-bold">{location.name}</h2>
-                            <p>{location.veterinaryGroup}</p>
+                            <p>{location.veterinaryGroup.name}</p>
                             <p>{location.locationId}</p>
                         </div>
                     </Link>

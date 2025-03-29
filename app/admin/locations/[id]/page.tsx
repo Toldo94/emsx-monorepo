@@ -14,16 +14,20 @@ function AdminLocation({ params }: { params: Promise<{ id: string }> }) {
         setLocation(res.data);
     }, [params]);
 
+    console.log("Location", location);
+
+
     useEffect(() => {
         fetchLocation();
-    }, [fetchLocation]); // Added fetchLocation to the dependency array
+    }, [fetchLocation]);
 
     if (!location) return <div>Loading...</div>;
+
 
     return (
         <div className="p-4 border border-gray-300 rounded shadow h-full">
             <h2 className="text-xl font-bold">{location.name}</h2>
-            <p>{location.veterinaryGroup}</p>
+            <p>{location.veterinaryGroup.name}</p>
             <p>{location.locationId}</p>
         </div>
     )

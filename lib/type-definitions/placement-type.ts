@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const PlacementTypeSchema = z.object({
+    id: z.number(),
     name: z.string(),
-    searchName: z.string(),
     order: z.number(),
 });
 
