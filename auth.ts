@@ -5,8 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 
 
-import dbConnect from "./lib/db";
-import AuthUser from "./models/User";
+import prisma from "@/lib/prisma";
 
 import EncryptionService from "@/app/lib/encryption/encryption.service";
 
@@ -27,9 +26,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             authorize: async (credentials, request): Promise<User | null> => {
                 const { email, password } = LoginSchema.parse(credentials);
 
-                await dbConnect();
                 try {
-                    const userFromDb = await AuthUser.findOne({ email });
+                    const userFromDb = await prisma.user.findUnique({ where: { email } });
 
                     if (!userFromDb || !await EncryptionService.compare(password, userFromDb.password)) {
                         return null;

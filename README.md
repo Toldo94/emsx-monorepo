@@ -38,4 +38,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Database
 
+https://www.prisma.io/docs/guides/nextjs
+
 https://chukwudinweze.hashnode.dev/prisma-orm-with-mongodb-in-nextjs-clokoexr3000c09l6dmvv0lm0
+
+
+## Commands 
+
+npx prisma migrate dev --name init
+npx prisma migrate dev --create-only
+
+npx prisma migrate reset

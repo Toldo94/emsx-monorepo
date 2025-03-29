@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String?
+  password     String
+  refreshToken String?
+  roleName     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  role UserRole @relation(fields: [roleName], references: [name])
+}
+
+model UserRole {
+  name        String   @id @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users User[]
+}
+
+model AttributeType {
+  name        String   @id @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  attributes Attribute[]
+}
+
+model Attribute {
+  id        Int           @id @default(autoincrement())
+  name      String
+  order     Int
+  typeName  String
+  type      AttributeType @relation(fields: [typeName], references: [name])
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  locations             Location[]
+  AttributesOnLocations AttributesOnLocations[]
+}
+
+model VeterinaryGroup {
+  id        Int      @id @default(autoincrement())
+  name      String
+  group_id  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  locations Location[]
+}
+
+model Location {
+  id                Int     @id @default(autoincrement())
+  name              String
+  veterinaryGroupId Int
+  locationId        String  @unique
+  groupHq           Boolean @default(false)
+  status            String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  veterinaryGroup       VeterinaryGroup         @relation(fields: [veterinaryGroupId], references: [id])
+  attributes            Attribute[]
+  AttributesOnLocations AttributesOnLocations[]
+}
+
+model AttributesOnLocations {
+  locationId  Int
+  attributeId Int
+  location    Location  @relation(fields: [locationId], references: [id])
+  attribute   Attribute @relation(fields: [attributeId], references: [id])
+
+  @@id([locationId, attributeId])
+}

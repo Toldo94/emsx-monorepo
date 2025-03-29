@@ -3,10 +3,10 @@
 import { redirect } from 'next/navigation'
 import { z } from "zod";
 
+import prisma from '@/lib/prisma';
+
 import EncryptionService from '../encryption/encryption.service';
 import { UserRole } from '../user/user-role.enum';
-import dbConnect from '@/lib/db';
-import AuthUser from '@/models/User';
 
 
 const StudentRegistrationSchema = z.object({
@@ -26,14 +26,16 @@ export async function registerStudent(formData: FormData) {
     });
 
     const hashedPassword = await EncryptionService.hash(password);
-
-    await dbConnect();
-
-    await AuthUser.create({
-        email,
-        password: hashedPassword,
-        roleName: UserRole.Student
-    });
-    
+    try {
+        await prisma.user.create({
+            data: {
+                email,
+            password: hashedPassword,
+            roleName: UserRole.Student
+            }
+        });
+    } catch (error) {
+        console.log("#Create error", error instanceof Error ? error.message : String(error));
+    }
     redirect("/login");
 }

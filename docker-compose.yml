@@ -1,23 +1,16 @@
 services:
-  postgres:
-    image: postgres:17.2
+  db_emsx:
+    image: postgis/postgis:17-master
     restart: always
     environment:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
       - POSTGRES_DB=emsx
     volumes:
-      - postgres_emsx:/var/lib/postgresql/data
+      - db_emsx:/var/lib/postgresql/data
 
     ports:
       - '5432:5432'
-
-  adminer:
-    image: adminer
-    restart: always
-
-    ports:
-      - 9090:8080
 
   mongo:
     image: prismagraphql/mongo-single-replica:4.4.3-bionic
@@ -32,5 +25,5 @@ services:
       - mongo_emsx:/data/db
 
 volumes:
-  postgres_emsx:
+  db_emsx:
   mongo_emsx:
