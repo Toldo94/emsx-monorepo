@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { Element } from "react-scroll";
 
@@ -21,7 +21,7 @@ export default function Search() {
             </div>
             <div className="flex-1 min-h-0 my-2 overflow-y-auto">
               {locations.map((location) => (
-                <Element key={location.id} name={location.id}>
+                <Element key={location.id} name={location.id.toString()}>
                   <LocationCard key={location.id} location={location} />
                 </Element>
               ))}

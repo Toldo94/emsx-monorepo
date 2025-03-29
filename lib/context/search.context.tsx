@@ -20,6 +20,7 @@ interface SearchContextType {
     setPlacementTypes: (placementTypes: PlacementType[]) => void;
     geoLocation: GeoLocation | null;
     fetchGeoLocation: (partialAddress: string) => void;
+    fetchLocations: () => void;
     createSearchUrl: () => string;
     selectedPlacementTypes: PlacementType[];
     setSelectedPlacementTypes: (selectedPlacementTypes: PlacementType[]) => void;
@@ -36,7 +37,8 @@ const initialState: SearchContextType = {
     fetchGeoLocation: () => { },
     createSearchUrl: () => "",
     setSelectedPlacementTypes: () => { },
-    locations: []
+    locations: [],
+    fetchLocations: () => { }
 }
 
 export const SearchContext = createContext<SearchContextType>(initialState);
@@ -72,10 +74,8 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const fetchLocations = async () => {
-        console.log("Fetch locations: geoLocation: ", geoLocation);
         if (!geoLocation) return;
-        
-        console.log("Fetch locations: selected placement types: ", selectedPlacementTypes);
+
         const locationsData = await getLocations(geoLocation.latitude, geoLocation.longitude, selectedPlacementTypes.map(placementType => placementType.id));
         const parsedLocations = LocationResponseSchema.parse(locationsData);
         setLocations(parsedLocations.data);
@@ -104,10 +104,13 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 
 
         const filters = searchParams.get(FILTERS_QUERY_PARAM) || "";
-        const searchPlacementTypes = filters.split(',').map(Number);
 
-        console.log("Filters: ", filters);
-        console.log("Search placement types: ", searchPlacementTypes);
+        const searchPlacementTypes: number[] = [];
+
+        if (filters.length > 0) {
+            const filtersSplitted = filters.split(',') || [];
+            searchPlacementTypes.push(...filtersSplitted.map(Number));
+        }
 
         if (address) {
             setGeoLocation({
@@ -119,7 +122,6 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (searchPlacementTypes.length > 0) {
             const filteredPlacementTypes = placementTypes.filter((type: PlacementType) => searchPlacementTypes.includes(type.id));
-            console.log("Filtered placement types: ", filteredPlacementTypes);
             setSelectedPlacementTypes(filteredPlacementTypes);
         }
     }
@@ -145,7 +147,8 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
                 createSearchUrl,
                 selectedPlacementTypes,
                 setSelectedPlacementTypes,
-                locations
+                locations,
+                fetchLocations
             }}>{children}
         </SearchContext.Provider>
     )

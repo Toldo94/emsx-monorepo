@@ -1,6 +1,7 @@
 import { Location } from "@/lib/type-definitions/location";
 
 const getAddress = (location: Location) => {
+    return "";
     const addressParts = []
 
     if (location.address.street) {
@@ -24,9 +25,9 @@ const getAddress = (location: Location) => {
 }
 
 export default function LocationCard({ location }: { location: Location }) {
+    console.log("Location: ", location);
     return (
         <div className="flex flex-col items-center justify-center w-full border my-2">
-            <div>{location.placementType}</div>
             <h1>{location.name}</h1>
             <p>{getAddress(location)}</p>
         </div>

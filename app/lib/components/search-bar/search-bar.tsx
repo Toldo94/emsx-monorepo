@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 
 import React from "react";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function SearchBar() {
 
     const router = useRouter();
-    const { placementTypes, fetchGeoLocation, searchQuery, setSearchQuery, createSearchUrl, selectedPlacementTypes, setSelectedPlacementTypes } = useSearchContext();
+    const { placementTypes, fetchGeoLocation, searchQuery, setSearchQuery, createSearchUrl, selectedPlacementTypes, setSelectedPlacementTypes, fetchLocations } = useSearchContext();
 
 
     const debouncedfetchGeoLocation = useDebounce(fetchGeoLocation, 500);
@@ -22,6 +22,7 @@ export default function SearchBar() {
     };
 
     const onSearchClick = () => {
+        fetchLocations();
         const searchUrl = createSearchUrl();
         router.push(searchUrl);
     }
