@@ -32,7 +32,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/mongoose": "^5.11.97",
-    "@types/node": "^22.13.8",
+    "@types/node": "^22.13.16",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-scroll": "^1.8.10",
