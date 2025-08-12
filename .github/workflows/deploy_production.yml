@@ -23,7 +23,7 @@ jobs:
     steps:
       # Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Extract tag
         run: echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
